@@ -26,3 +26,6 @@ flutter:
 
   assets:
       - assets/images/Heart.png
+      - assets/images/звездочки.png
+      - assets/images/круг_побольше.png
+      - assets/images/круг_поменьше.png
