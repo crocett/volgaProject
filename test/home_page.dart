@@ -89,6 +89,17 @@ class _HomePageState extends State<HomePage> {
                       size: 35,
                     ),
             ),
+            IconButton(
+              enableFeedback: false,
+              onPressed: () {
+                setState(() {
+                  pageIndex = 3;
+                });
+              },
+              icon: pageIndex == 3
+                  ? Tab(icon: Image.asset("assets/images/menu.png"))
+                  : Tab(icon: Image.asset("assets/images/menu.png"))
+            ),
           ],
         ),
       ),
@@ -98,10 +109,12 @@ class _HomePageState extends State<HomePage> {
 
 class Page1 extends StatelessWidget {
   const Page1({super.key});
-
+ 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('1', style: TextStyle(fontSize: 20)));
+    return Center(
+      child: Text("Страница поиска", style: TextStyle(fontSize: 20)),
+    );
   }
 }
 
@@ -110,7 +123,9 @@ class Page2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('2', style: TextStyle(fontSize: 20)));
+    return Center(
+      child: Text("Страница поиска", style: TextStyle(fontSize: 20)),
+    );
   }
 }
 
@@ -119,7 +134,9 @@ class Page3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('3', style: TextStyle(fontSize: 20)));
+    return Center(
+      child: Text("Страница поиска", style: TextStyle(fontSize: 20)),
+    );
   }
 }
 
@@ -128,6 +145,8 @@ class Page4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('4', style: TextStyle(fontSize: 20)));
+    return Center(
+      child: Text("Страница поиска", style: TextStyle(fontSize: 20)),
+    );
   }
 }

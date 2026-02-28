@@ -14,6 +14,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
+  splashscreen: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -29,3 +30,6 @@ flutter:
       - assets/images/звездочки.png
       - assets/images/круг_побольше.png
       - assets/images/круг_поменьше.png
+      - assets/images/menu.png
+      - assets/images/heart_1.svg
+      - assets/images/heart_2.jpg
