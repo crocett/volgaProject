@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../model/user.dart';
 import '../user_pref.dart';
 import '../widget/appbar_widget.dart';
 import '../widget/profile_widget.dart';
 import '../widget/textfield_widget.dart';
+import 'dart:io';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -14,9 +16,47 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   User user = UserPreferences.myUser;
+  File? _pickedImageFile;
+
+  @override
+  void initState() {
+    super.initState();
+    user = UserPreferences.myUser;
+  }
+
+  Future<void> _pickImage() async {
+    try {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 80, // опционально: сжатие
+      );
+
+      if (pickedFile != null) {
+        setState(() {
+          _pickedImageFile = File(pickedFile.path);
+          // Обновляем путь в объекте User (если нужно сохранить временно)
+          user = user.copyWith(imagePath: pickedFile.path);
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Ошибка выбора изображения: $e')),
+        );
+      }
+    }
+  }
+
+  void _saveProfile() {
+    Navigator.of(context).pop(user);
+  }
 
   @override
   Widget build(BuildContext context) {
+    final displayImage = _pickedImageFile != null 
+        ? FileImage(_pickedImageFile!) 
+        : AssetImage(user.imagePath) as ImageProvider;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: buildAppBar(context),
@@ -38,7 +78,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ProfileWidget(
                 imagePath: user.imagePath,
                 isEdit: true,
-                onClicked: () async {},
+                onClicked: _pickImage,
               ),
               const SizedBox(height: 24),
               TextfieldWidget(
