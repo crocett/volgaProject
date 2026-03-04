@@ -18,22 +18,24 @@ class _PersonalAccountState extends State<PersonalAccount> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: buildAppBar(context),
       body: Stack(
         children: [
           Positioned.fill(
             child: DecoratedBox(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/fon_backg.png"),
-                fit: BoxFit.cover,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/fon_backg.png"),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
-          ),
-          ListView(
-            physics: BouncingScrollPhysics(),
+
+          Column(
             children: [
+              SizedBox(height: 100),
               ProfileWidget(
                 imagePath: user.imagePath,
                 onClicked: () async {
@@ -42,13 +44,15 @@ class _PersonalAccountState extends State<PersonalAccount> {
                   );
                 },
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 25),
               buildName(user),
-              const SizedBox(height: 24),
-              Center(child: buildUpgrateButton()),
+              const Spacer(),
+              Padding(
+                padding: EdgeInsets.only(bottom: 30),
+                child: Center(child: buildUpgrateButton()),
+              ),
             ],
           ),
-          
         ],
       ),
     );
@@ -58,7 +62,7 @@ class _PersonalAccountState extends State<PersonalAccount> {
     children: [
       Text(
         user.name,
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
       ),
       const SizedBox(height: 4),
       Text(user.level, style: TextStyle(color: Colors.grey)),

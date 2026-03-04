@@ -29,13 +29,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
       final picker = ImagePicker();
       final pickedFile = await picker.pickImage(
         source: ImageSource.gallery,
-        imageQuality: 80, // опционально: сжатие
+        imageQuality: 80,
       );
 
       if (pickedFile != null) {
         setState(() {
           _pickedImageFile = File(pickedFile.path);
-          // Обновляем путь в объекте User (если нужно сохранить временно)
           user = user.copyWith(imagePath: pickedFile.path);
         });
       }
@@ -50,13 +49,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   void _saveProfile() {
     Navigator.of(context).pop(user);
+    //здесь дописать сохранение в бд, но ее пока нет
   }
 
   @override
   Widget build(BuildContext context) {
-    final displayImage = _pickedImageFile != null 
-        ? FileImage(_pickedImageFile!) 
+    final displayImage = _pickedImageFile != null
+        ? FileImage(_pickedImageFile!)
         : AssetImage(user.imagePath) as ImageProvider;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: buildAppBar(context),
@@ -72,34 +73,43 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
             ),
           ),
-          ListView(
-            physics: BouncingScrollPhysics(),
+          Column(
             children: [
-              ProfileWidget(
-                imagePath: user.imagePath,
-                isEdit: true,
-                onClicked: _pickImage,
-              ),
-              const SizedBox(height: 24),
-              TextfieldWidget(
-                label: 'Имя',
-                text: user.name,
-                onChanged: (name) {},
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 221, 27, 27),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+              SizedBox(height: 100),
+                  ProfileWidget(
+                    imagePath: user.imagePath,
+                    isEdit: true,
+                    onClicked: _pickImage,
                   ),
-                ),
-                child: const Text('Сохранить', style: TextStyle(fontSize: 17, color: Colors.white)),
-              )
+                  const SizedBox(height: 24),
+                  Padding(
+                    padding: EdgeInsets.all(25),
+                    child: TextfieldWidget(
+                      label: 'Имя',
+
+                      text: user.name,
+                      onChanged: (name) {},
+                    ),
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: EdgeInsets.all(25),
+                    child: ElevatedButton(
+                      onPressed: _saveProfile,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 221, 27, 27),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Text(
+                        'Сохранить',
+                        style: TextStyle(fontSize: 17, color: Colors.white),
+                      ),
+                    ),
+                  ),
+
+                  //const SizedBox(height: 24),
             ],
           ),
         ],

@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'page/lk.dart';
 import 'page/edit_profile.dart';
+import 'page/search.dart';
+import 'page/menu.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,9 +16,9 @@ class _HomePageState extends State<HomePage> {
   int pageIndex = 0;
   final List<Widget> pages = [
     const Page1(),
-    const Page2(),
+    const SearchPage(),
     const PersonalAccount(),
-    const Page4(),
+    const MenuPage(),
   ];
 
   @override
@@ -40,7 +42,7 @@ class _HomePageState extends State<HomePage> {
       ),
 
       bottomNavigationBar: Container(
-        height: 65,
+        height: 75,
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 221, 27, 27),
           borderRadius: const BorderRadius.only(
