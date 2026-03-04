@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'page/lk.dart';
+import 'page/edit_profile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,13 +15,30 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> pages = [
     const Page1(),
     const Page2(),
-    const Page3(),
+    const PersonalAccount(),
     const Page4(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/fon_backg.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+
+          IndexedStack(index: pageIndex, children: pages),
+        ],
+      ),
+
       bottomNavigationBar: Container(
         height: 65,
         decoration: BoxDecoration(
@@ -98,7 +117,7 @@ class _HomePageState extends State<HomePage> {
               },
               icon: pageIndex == 3
                   ? Tab(icon: Image.asset("assets/images/menu.png"))
-                  : Tab(icon: Image.asset("assets/images/menu.png"))
+                  : Tab(icon: Image.asset("assets/images/menu.png")),
             ),
           ],
         ),
@@ -109,11 +128,11 @@ class _HomePageState extends State<HomePage> {
 
 class Page1 extends StatelessWidget {
   const Page1({super.key});
- 
+
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text("Страница поиска", style: TextStyle(fontSize: 20)),
+      child: Text("Приветственная страница", style: TextStyle(fontSize: 20)),
     );
   }
 }
@@ -135,7 +154,7 @@ class Page3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text("Страница поиска", style: TextStyle(fontSize: 20)),
+      child: Text("Страница чего-то там", style: TextStyle(fontSize: 20)),
     );
   }
 }
@@ -146,7 +165,7 @@ class Page4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text("Страница поиска", style: TextStyle(fontSize: 20)),
+      child: Text("Страница чего-то там", style: TextStyle(fontSize: 20)),
     );
   }
 }
