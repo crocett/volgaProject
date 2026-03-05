@@ -44,11 +44,18 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: Container(
         height: 75,
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 221, 27, 27),
+          color: const Color.fromARGB(255, 255, 255, 255),
           borderRadius: const BorderRadius.only(
             // topLeft: Radius.circular(20),
             // bottomLeft: Radius.circular(20),
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, -5),
+            ),
+          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -68,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                     )
                   : const Icon(
                       Icons.home_outlined,
-                      color: Colors.white,
+                      color: Colors.red,
                       size: 35,
                     ),
             ),
@@ -87,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                     )
                   : const Icon(
                       Icons.search_outlined,
-                      color: Color.fromARGB(255, 255, 255, 255),
+                      color: Colors.red,
                       size: 35,
                     ),
             ),
@@ -106,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                     )
                   : const Icon(
                       Icons.person_outline_outlined,
-                      color: Colors.white,
+                      color: Colors.red,
                       size: 35,
                     ),
             ),
