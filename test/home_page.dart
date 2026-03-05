@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'page/home.dart';
 import 'page/lk.dart';
 import 'page/edit_profile.dart';
 import 'page/search.dart';
@@ -15,10 +16,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int pageIndex = 0;
   final List<Widget> pages = [
-    const Page1(),
+    const HomePageScreen(),
+    const MenuPage(),
     const SearchPage(),
     const PersonalAccount(),
-    const MenuPage(),
   ];
 
   @override
@@ -87,16 +88,8 @@ class _HomePageState extends State<HomePage> {
                 });
               },
               icon: pageIndex == 1
-                  ? const Icon(
-                      Icons.search_outlined,
-                      color: Color.fromARGB(204, 255, 158, 158),
-                      size: 35,
-                    )
-                  : const Icon(
-                      Icons.search_outlined,
-                      color: Colors.red,
-                      size: 35,
-                    ),
+                  ? Tab(icon: Image.asset("assets/images/menu.png"))
+                  : Tab(icon: Image.asset("assets/images/menu.png")),
             ),
             IconButton(
               enableFeedback: false,
@@ -107,12 +100,12 @@ class _HomePageState extends State<HomePage> {
               },
               icon: pageIndex == 2
                   ? const Icon(
-                      Icons.person_outline_outlined,
+                      Icons.search_outlined,
                       color: Color.fromARGB(204, 255, 158, 158),
                       size: 35,
                     )
                   : const Icon(
-                      Icons.person_outline_outlined,
+                      Icons.search_outlined,
                       color: Colors.red,
                       size: 35,
                     ),
@@ -125,8 +118,16 @@ class _HomePageState extends State<HomePage> {
                 });
               },
               icon: pageIndex == 3
-                  ? Tab(icon: Image.asset("assets/images/menu.png"))
-                  : Tab(icon: Image.asset("assets/images/menu.png")),
+                  ? const Icon(
+                      Icons.person_outline_outlined,
+                      color: Color.fromARGB(204, 255, 158, 158),
+                      size: 35,
+                    )
+                  : const Icon(
+                      Icons.person_outline_outlined,
+                      color: Colors.red,
+                      size: 35,
+                    ),
             ),
           ],
         ),
@@ -141,7 +142,7 @@ class Page1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text("Приветственная страница", style: TextStyle(fontSize: 20)),
+      child: Text("Главная страница", style: TextStyle(fontSize: 20)),
     );
   }
 }
