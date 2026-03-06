@@ -37,6 +37,9 @@ flutter:
       - assets/images/круг_поменьше.png
       - assets/images/menu.png
       - assets/images/heart_1.svg
+<<<<<<< HEAD
+      - assets/images/heart_2.jpg
+=======
       - assets/images/heart_2.jpg
       - assets/images/fon_backg.png
       - assets/images/heart_home.png
