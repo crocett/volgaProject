@@ -1,8 +1,8 @@
-import 'dart:convert';
+//import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'page/home.dart';
 import 'page/lk.dart';
-import 'page/edit_profile.dart';
+//import 'page/edit_profile.dart';
 import 'page/search.dart';
 import 'page/menu.dart';
 
@@ -88,8 +88,8 @@ class _HomePageState extends State<HomePage> {
                 });
               },
               icon: pageIndex == 1
-                  ? Tab(icon: Image.asset("assets/images/menu.png"))
-                  : Tab(icon: Image.asset("assets/images/menu.png")),
+                  ? Tab(icon: Image.asset("assets/images/star_2.png", width: 35,))
+                  : Tab(icon: Image.asset("assets/images/star_1.png", width: 35,)),
             ),
             IconButton(
               enableFeedback: false,

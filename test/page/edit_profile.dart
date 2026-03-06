@@ -54,9 +54,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final displayImage = _pickedImageFile != null
-        ? FileImage(_pickedImageFile!)
-        : AssetImage(user.imagePath) as ImageProvider;
+    // final displayImage = _pickedImageFile != null
+    //     ? FileImage(_pickedImageFile!)
+    //     : AssetImage(user.imagePath) as ImageProvider;
 
     return Scaffold(
       extendBodyBehindAppBar: true,

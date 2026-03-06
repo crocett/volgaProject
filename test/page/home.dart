@@ -48,7 +48,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
         padding: EdgeInsets.only(bottom: 50),
         child: Column(
           children: [
-            SizedBox(height: 20),
+            SizedBox(height: 40),
             Padding(
               padding: EdgeInsets.all(10),
               child: Row(
@@ -56,17 +56,20 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ...List.generate(
-                    (MediaQuery.of(context).size.width / 130).clamp(1, 10).toInt(),
+                    (MediaQuery.of(context).size.width / 130)
+                        .clamp(1, 10)
+                        .toInt(),
                     (index) {
-                    return [
-                      Image.asset(
-                        'assets/images/chuv.png',
-                        //height: 35,
-                        fit: BoxFit.contain,
-                      ),
-                      const SizedBox(width: 5),
-                    ];
-                  }).expand((e) => e).toList()..removeLast(),
+                      return [
+                        Image.asset(
+                          'assets/images/chuv.png',
+                          //height: 35,
+                          fit: BoxFit.contain,
+                        ),
+                        const SizedBox(width: 5),
+                      ];
+                    },
+                  ).expand((e) => e).toList()..removeLast(),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Image.asset(
@@ -76,17 +79,20 @@ class _HomePageScreenState extends State<HomePageScreen> {
                     ),
                   ),
                   ...List.generate(
-                    (MediaQuery.of(context).size.width / 130).clamp(1, 10).toInt(), 
+                    (MediaQuery.of(context).size.width / 130)
+                        .clamp(1, 10)
+                        .toInt(),
                     (index) {
-                    return [
-                      Image.asset(
-                        'assets/images/chuv.png',
-                        //height: 35,
-                        fit: BoxFit.contain,
-                      ),
-                      const SizedBox(width: 5),
-                    ];
-                  }).expand((e) => e).toList()..removeLast(),
+                      return [
+                        Image.asset(
+                          'assets/images/chuv.png',
+                          //height: 35,
+                          fit: BoxFit.contain,
+                        ),
+                        const SizedBox(width: 5),
+                      ];
+                    },
+                  ).expand((e) => e).toList()..removeLast(),
                 ],
               ),
             ),
@@ -147,7 +153,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
             //     ),
             //   ),
             // ),
-
+            SizedBox(height: 20),
             //интересное
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
@@ -308,47 +314,71 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.only(left: 30, top: 10),
-                    child: Container(
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
-                        ),
-                        color: const Color.fromARGB(255, 179, 172, 172),
+                    child: TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 179, 172, 172),
+                        foregroundColor: Color.fromARGB(255, 112, 108, 108),
+                        //primary: Colors.grey,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)
+                          
+                        )
                       ),
-                      width: double.infinity,
-                      height: 100,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextButton(
-                            onPressed: () {},
-                            child: Text('Тесты'),
-                            style: TextButton.styleFrom(
-                              foregroundColor: const Color.fromARGB(
-                                255,
-                                0,
-                                0,
-                                0,
-                              ),
-                              textStyle: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
+                      child: Container(
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
+                          ),
+                          //color: const Color.fromARGB(255, 179, 172, 172),
+                        ),
+                        width: double.infinity,
+                        height: 100,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextButton(
+                              onPressed: () {},
+                              child: Text('Тесты'),
+                              style: TextButton.styleFrom(
+                                foregroundColor: const Color.fromARGB(
+                                  255,
+                                  0,
+                                  0,
+                                  0,
+                                ),
+                                textStyle: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
                 Expanded(
-                  child: Padding(
+                  child: 
+                  Padding(
                     padding: EdgeInsets.only(left: 30, top: 10, right: 30),
-                    child: Container(
+                    child: TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 179, 172, 172),
+                        foregroundColor: Color.fromARGB(255, 112, 108, 108),
+                        //primary: Colors.grey,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)
+                          
+                        )
+                      ),
+                      child: Container(
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
@@ -357,7 +387,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                           bottomLeft: Radius.circular(20),
                           bottomRight: Radius.circular(20),
                         ),
-                        color: const Color.fromARGB(255, 179, 172, 172),
+                        //color: const Color.fromARGB(255, 179, 172, 172),
                       ),
                       width: double.infinity,
                       height: 100,
@@ -383,6 +413,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         ],
                       ),
                     ),
+                    )
+                    
                   ),
                 ),
               ],

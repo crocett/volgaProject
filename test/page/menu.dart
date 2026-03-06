@@ -39,8 +39,8 @@ class _MenuPageState extends State<MenuPage> {
                     },
                     //child: Text('Поиск', style: TextStyle(fontSize: 25)),
                     style: TextButton.styleFrom(
-                      foregroundColor: Colors.red,
-                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.red,
                       minimumSize: Size(double.infinity, 60),
                       shadowColor: Colors.black.withOpacity(0.2),
                       elevation: 10,
@@ -61,8 +61,8 @@ class _MenuPageState extends State<MenuPage> {
                     onPressed: () {},
                     //child: Text('Тесты', style: TextStyle(fontSize: 25)),
                     style: TextButton.styleFrom(
-                      foregroundColor: Colors.red,
-                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.red,
                       minimumSize: Size(double.infinity, 60),
                       shadowColor: Colors.black.withOpacity(0.2),
                       elevation: 10,
@@ -83,8 +83,8 @@ class _MenuPageState extends State<MenuPage> {
                     onPressed: () {},
                     //child: Text('Статьи', style: TextStyle(fontSize: 25)),
                     style: TextButton.styleFrom(
-                      foregroundColor: Colors.red,
-                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.red,
                       minimumSize: Size(double.infinity, 60),
                       shadowColor: Colors.black.withOpacity(0.2),
                       elevation: 10,
@@ -105,8 +105,8 @@ class _MenuPageState extends State<MenuPage> {
                     onPressed: () {},
                     //child: Text('Настройки', style: TextStyle(fontSize: 25)),
                     style: TextButton.styleFrom(
-                      foregroundColor: Colors.red,
-                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.red,
                       minimumSize: Size(double.infinity, 60),
                       shadowColor: Colors.black.withOpacity(0.2),
                       elevation: 10,
@@ -126,8 +126,8 @@ class _MenuPageState extends State<MenuPage> {
                   child: TextButton(
                     onPressed: () {},
                     style: TextButton.styleFrom(
-                      foregroundColor: Colors.red,
-                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.red,
                       minimumSize: Size(double.infinity, 60),
                       shadowColor: Colors.black.withOpacity(0.2),
                       elevation: 10,

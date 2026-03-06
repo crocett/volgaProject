@@ -10,7 +10,6 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   Icon customIcon = const Icon(Icons.search);
   Widget customSearchBar = const Text('Search');
-  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -18,48 +17,48 @@ class _SearchPageState extends State<SearchPage> {
       backgroundColor: Colors.red[600],
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70.0),
-        child: AppBar(
-          leading: Icon(Icons.search, color: Colors.white),
-          title: TextField(
-            controller: _searchController,
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              hintText: 'Поиск чего-то там',
-              hintStyle: TextStyle(color: Colors.white),
-              labelStyle: TextStyle(color: Colors.white),
+        preferredSize: Size.fromHeight(80.0),
+        child: Column(
+          children: [
+            SizedBox(height: 15),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: AppBar(
+                leading: Icon(Icons.search, color: Colors.white, size: 30),
+                title: TextField(
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
+                  decoration: InputDecoration(
+                    hintText: 'Поиск чего-то там',
+                    hintStyle: TextStyle(color: Colors.white),
+                    labelStyle: TextStyle(color: Colors.white),
 
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white, width: 0.2),
-                borderRadius: BorderRadius.all(Radius.circular(20)),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white, width: 0.4),
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white, width: 0.4),
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white, width: 0.4),
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    //icon: Icon(Icons.cancel, color: Colors.white, size: 30,),
+                  ),
+                ),
+                shape: RoundedRectangleBorder(
+                  //borderRadius: BorderRadius.all(Radius.circular(20)),
+                ),
+                automaticallyImplyLeading: false,
+                backgroundColor: Colors.red[600],
               ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white, width: 0.2),
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white, width: 0.2),
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-              ),
-              suffixIcon: _searchController.text.isNotEmpty
-                  ? IconButton(
-                      onPressed: () {
-                        _searchController.clear();
-                      },
-                      icon: Icon(Icons.cancel, color: Colors.white),
-                    )
-                  : null,
             ),
-          ),
-          shape: RoundedRectangleBorder(
-            //borderRadius: BorderRadius.all(Radius.circular(20)),
-          ),
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.red[600],
+          ],
         ),
       ),
       body: Container(
-        margin: EdgeInsets.only(top: 110.0),
+        margin: EdgeInsets.only(top: 130.0),
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -69,7 +68,9 @@ class _SearchPageState extends State<SearchPage> {
           color: Colors.white,
         ),
         constraints: const BoxConstraints.expand(),
-        child: Center(child: Text('Какой-то текст')),
+        child: Center(
+          child: Text('Какой-то текст', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w200, ),)
+        ),
       ),
 
       // child: Stack(
