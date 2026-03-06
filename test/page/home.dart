@@ -11,6 +11,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       // body: Stack(
       //   children: [
       //     Positioned.fill(
@@ -47,34 +48,109 @@ class _HomePageScreenState extends State<HomePageScreen> {
         padding: EdgeInsets.only(bottom: 50),
         child: Column(
           children: [
-            //здесь рисунок серца чувашского добавить
             SizedBox(height: 20),
             Padding(
-              padding: EdgeInsets.all(30),
-              child: Container(
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
+              padding: EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ...List.generate(
+                    (MediaQuery.of(context).size.width / 130).clamp(1, 10).toInt(),
+                    (index) {
+                    return [
+                      Image.asset(
+                        'assets/images/chuv.png',
+                        //height: 35,
+                        fit: BoxFit.contain,
+                      ),
+                      const SizedBox(width: 5),
+                    ];
+                  }).expand((e) => e).toList()..removeLast(),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Image.asset(
+                      'assets/images/heart_home.png',
+                      height: 60,
+                      fit: BoxFit.contain,
+                    ),
                   ),
-                  color: const Color.fromARGB(255, 179, 172, 172),
-                ),
-                width: double.infinity,
-                height: 100,
-                child: Center(
-                  child: Text(
-                    'Типо изображение чувашского сердца'
-                  ),
-                )
+                  ...List.generate(
+                    (MediaQuery.of(context).size.width / 130).clamp(1, 10).toInt(), 
+                    (index) {
+                    return [
+                      Image.asset(
+                        'assets/images/chuv.png',
+                        //height: 35,
+                        fit: BoxFit.contain,
+                      ),
+                      const SizedBox(width: 5),
+                    ];
+                  }).expand((e) => e).toList()..removeLast(),
+                ],
               ),
             ),
 
+            // Padding(
+            //   padding: EdgeInsets.all(30),
+            //   child: Container(
+            //     clipBehavior: Clip.antiAlias,
+            //     decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.only(
+            //         topLeft: Radius.circular(20),
+            //         topRight: Radius.circular(20),
+            //         bottomLeft: Radius.circular(20),
+            //         bottomRight: Radius.circular(20),
+            //       ),
+            //       //color: const Color.fromARGB(255, 179, 172, 172),
+            //     ),
+            //     width: double.infinity,
+            //     height: 100,
+            //     child: Center(
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //         children: [
+            //           Expanded(
+            //             child: Row(
+            //               mainAxisSize: MainAxisSize.min,
+            //               children: [
+            //                 // Image.asset('assets/images/chuv.png', width: 35),
+            //                 // SizedBox(width: 5),
+            //                 // Image.asset('assets/images/chuv.png', width: 35),
+            //                 // SizedBox(width: 5),
+            //                 // Image.asset('assets/images/chuv.png', width: 35),
+            //               ],
+            //             ),
+            //           ),
+
+            //           //SizedBox(width: 10),
+            //           Expanded(
+            //             child: Image.asset('assets/images/heart_home.png'),
+            //           ),
+
+            //           //SizedBox(width: 5),
+            //           Expanded(
+            //             child: Row(
+            //               mainAxisSize: MainAxisSize.min,
+            //               children: [
+            //                 Image.asset('assets/images/chuv.png', width: 35),
+            //                 SizedBox(width: 5),
+            //                 Image.asset('assets/images/chuv.png', width: 35),
+            //                 SizedBox(width: 5),
+            //                 Image.asset('assets/images/chuv.png', width: 35),
+            //                 //Image.asset('assets/images/chuv.png')
+            //               ],
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
+
             //интересное
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               child: Container(
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
@@ -111,10 +187,15 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       child: TextButton(
                         onPressed: () {},
                         style: TextButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(255, 179, 172, 172),
+                          backgroundColor: const Color.fromARGB(
+                            255,
+                            179,
+                            172,
+                            172,
+                          ),
                           side: BorderSide(
                             color: const Color.fromARGB(150, 244, 67, 54),
-                            width: 2.0
+                            width: 2.0,
                           ),
                           padding: EdgeInsets.symmetric(
                             horizontal: 20,
@@ -133,7 +214,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                               style: TextStyle(color: Colors.white),
                             ),
                             SizedBox(width: 5),
-                            Icon(Icons.chevron_right, color: Colors.white)
+                            Icon(Icons.chevron_right, color: Colors.white),
                           ],
                         ),
                       ),
@@ -158,7 +239,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
                     bottomRight: Radius.circular(20),
                   ),
                   color: const Color.fromARGB(255, 179, 172, 172),
-                  
                 ),
                 width: double.infinity,
                 height: 200,
@@ -185,10 +265,15 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       child: TextButton(
                         onPressed: () {},
                         style: TextButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(255, 179, 172, 172),
+                          backgroundColor: const Color.fromARGB(
+                            255,
+                            179,
+                            172,
+                            172,
+                          ),
                           side: BorderSide(
                             color: const Color.fromARGB(150, 244, 67, 54),
-                            width: 2.0
+                            width: 2.0,
                           ),
                           padding: EdgeInsets.symmetric(
                             horizontal: 20,
@@ -207,7 +292,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                               style: TextStyle(color: Colors.white),
                             ),
                             SizedBox(width: 5),
-                            Icon(Icons.chevron_right, color: Colors.white)
+                            Icon(Icons.chevron_right, color: Colors.white),
                           ],
                         ),
                       ),
@@ -241,7 +326,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         children: [
                           TextButton(
                             onPressed: () {},
-                            child: Text('Квесты'),
+                            child: Text('Тесты'),
                             style: TextButton.styleFrom(
                               foregroundColor: const Color.fromARGB(
                                 255,
