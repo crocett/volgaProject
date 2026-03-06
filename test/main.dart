@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SplashScreen.timer(
-      seconds: 8,
+      seconds: 4,
       navigateAfterSeconds: HomePage(),
       title: Text(
         'Сердце Поволжья',
