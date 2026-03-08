@@ -19,12 +19,12 @@ class MyApp extends StatelessWidget {
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35, color: const Color.fromARGB(255, 221, 27, 27)),
       ),
       image: Image.asset(
-        'assets/images/Heart.png',
+        'assets/images/heart.png',
         width: 600,
         height: 600,
         fit: BoxFit.contain,
       ),
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       loaderColor: const Color.fromARGB(255, 221, 27, 27),
     );
   }

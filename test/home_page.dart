@@ -1,5 +1,10 @@
 //import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'page/home.dart';
+import 'page/lk.dart';
+//import 'page/edit_profile.dart';
+import 'page/search.dart';
+import 'page/menu.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,23 +16,47 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int pageIndex = 0;
   final List<Widget> pages = [
-    const Page1(),
-    const Page2(),
-    const Page3(),
-    const Page4(),
+    const HomePageScreen(),
+    const MenuPage(),
+    const SearchPage(),
+    const PersonalAccount(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/fon_backg.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+
+          IndexedStack(index: pageIndex, children: pages),
+        ],
+      ),
+
       bottomNavigationBar: Container(
-        height: 65,
+        height: 75,
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 221, 27, 27),
+          color: const Color.fromARGB(255, 255, 255, 255),
           borderRadius: const BorderRadius.only(
             // topLeft: Radius.circular(20),
             // bottomLeft: Radius.circular(20),
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, -5),
+            ),
+          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -47,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                     )
                   : const Icon(
                       Icons.home_outlined,
-                      color: Colors.white,
+                      color: Colors.red,
                       size: 35,
                     ),
             ),
@@ -59,16 +88,8 @@ class _HomePageState extends State<HomePage> {
                 });
               },
               icon: pageIndex == 1
-                  ? const Icon(
-                      Icons.search_outlined,
-                      color: Color.fromARGB(204, 255, 158, 158),
-                      size: 35,
-                    )
-                  : const Icon(
-                      Icons.search_outlined,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      size: 35,
-                    ),
+                  ? Tab(icon: Image.asset("assets/images/star_2.png", width: 35,))
+                  : Tab(icon: Image.asset("assets/images/star_1.png", width: 35,)),
             ),
             IconButton(
               enableFeedback: false,
@@ -79,13 +100,13 @@ class _HomePageState extends State<HomePage> {
               },
               icon: pageIndex == 2
                   ? const Icon(
-                      Icons.person_outline_outlined,
+                      Icons.search_outlined,
                       color: Color.fromARGB(204, 255, 158, 158),
                       size: 35,
                     )
                   : const Icon(
-                      Icons.person_outline_outlined,
-                      color: Colors.white,
+                      Icons.search_outlined,
+                      color: Colors.red,
                       size: 35,
                     ),
             ),
@@ -97,8 +118,16 @@ class _HomePageState extends State<HomePage> {
                 });
               },
               icon: pageIndex == 3
-                  ? Tab(icon: Image.asset("assets/images/menu.png"))
-                  : Tab(icon: Image.asset("assets/images/menu.png"))
+                  ? const Icon(
+                      Icons.person_outline_outlined,
+                      color: Color.fromARGB(204, 255, 158, 158),
+                      size: 35,
+                    )
+                  : const Icon(
+                      Icons.person_outline_outlined,
+                      color: Colors.red,
+                      size: 35,
+                    ),
             ),
           ],
         ),
@@ -109,11 +138,11 @@ class _HomePageState extends State<HomePage> {
 
 class Page1 extends StatelessWidget {
   const Page1({super.key});
- 
+
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text("Страница поиска", style: TextStyle(fontSize: 20)),
+      child: Text("Главная страница", style: TextStyle(fontSize: 20)),
     );
   }
 }
@@ -135,7 +164,7 @@ class Page3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text("Страница поиска", style: TextStyle(fontSize: 20)),
+      child: Text("Страница чего-то там", style: TextStyle(fontSize: 20)),
     );
   }
 }
@@ -146,7 +175,7 @@ class Page4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text("Страница поиска", style: TextStyle(fontSize: 20)),
+      child: Text("Страница чего-то там", style: TextStyle(fontSize: 20)),
     );
   }
 }
