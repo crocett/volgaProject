@@ -66,8 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
-
-  @override
+@override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
