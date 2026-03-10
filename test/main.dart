@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'package:splashscreen/splashscreen.dart';
 //import 'package:volga/main.dart';
+import 'databasehelper.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await DatabaseHelper().database;
+  print('База данных готова к работе');
   runApp(MaterialApp(home: MyApp()));
 }
 

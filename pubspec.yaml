@@ -43,3 +43,4 @@ flutter:
       - assets/images/chuv.png
       - assets/images/star_1.png
       - assets/images/star_2.png
+      - assets/data/maininfo.db
