@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -24,9 +25,16 @@ class _SearchPageState extends State<SearchPage> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: AppBar(
+                systemOverlayStyle: SystemUiOverlayStyle(
+                  statusBarColor: Colors.red[600],
+                  statusBarIconBrightness: Brightness.dark,
+                ),
                 leading: Icon(Icons.search, color: Colors.white, size: 30),
                 title: TextField(
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w300,
+                  ),
                   decoration: InputDecoration(
                     hintText: 'Поиск чего-то там',
                     hintStyle: TextStyle(color: Colors.white),
@@ -69,7 +77,10 @@ class _SearchPageState extends State<SearchPage> {
         ),
         constraints: const BoxConstraints.expand(),
         child: Center(
-          child: Text('Какой-то текст', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w200, ),)
+          child: Text(
+            'Какой-то текст',
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w200),
+          ),
         ),
       ),
 

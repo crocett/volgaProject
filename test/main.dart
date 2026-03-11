@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'package:splashscreen/splashscreen.dart';
 //import 'package:volga/main.dart';
-import 'databasehelper.dart';
+import 'database_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
