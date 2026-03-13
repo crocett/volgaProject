@@ -85,7 +85,7 @@ class _ArctirclePageState extends State<ArctirclePage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: Colors.red,
+          //statusBarColor: Colors.red,
           statusBarBrightness: Brightness.light
         ),
         title: Text(

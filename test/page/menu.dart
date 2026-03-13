@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'all_arctircle_page.dart';
+import 'questions_page.dart';
 import 'search.dart';
+import 'all_questions_page.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});
@@ -24,7 +26,7 @@ class _MenuPageState extends State<MenuPage> {
           statusBarColor: Colors.red,
           statusBarIconBrightness: Brightness.dark,
         ),
-        backgroundColor: Colors.red[600],
+        backgroundColor: Colors.white,
         toolbarHeight: 10,
       ),
       body: Stack(
@@ -212,17 +214,20 @@ class _MenuPageState extends State<MenuPage> {
   List<Widget> get _menuButton => [
     _buildMenuButton("Поиск", Icons.search, () {
       setState(() {
-        _currentContent = SearchPage();
+        //_currentContent = SearchPage();
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchPage()));
       });
     }),
     _buildMenuButton('Тесты', Icons.text_snippet_sharp, () {
       setState(() {
-        _currentContent = Center(child: Text('Страница тестов'));
+        //_currentContent = QuestionsPage();
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllQuestionsPage()));
       });
     }),
     _buildMenuButton('Статьи', Icons.article_outlined, () {
       setState(() {
-        _currentContent = ArctirclePage();
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ArctirclePage()));
+        //_currentContent = ArctirclePage();
       });
     }),
     _buildMenuButton('Настройки', Icons.settings, () {
