@@ -46,3 +46,5 @@ flutter:
       - assets/data/maininfo.db
       - assets/articles_images/fullsize_img/full_mother_pocrov.jpg
       - assets/articles_images/fullsize_img/full_k_ivanov.jpg
+      - assets/articles_images/smallsize_img/sm_mother_pocrov.jpg
+      - assets/articles_images/smallsize_img/sm_k_ivanov.jpg

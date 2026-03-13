@@ -158,11 +158,11 @@ class _ArctirclePageState extends State<ArctirclePage> {
                             borderRadius: BorderRadius.circular(10),
                             color: Colors.red,
                           ),
-                          child: article['images'] != null
+                          child: article['icon_image'] != null
                               ? ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: Image.memory(
-                                    article['image'],
+                                  child: Image.asset(
+                                    article['icon_image'],
                                     fit: BoxFit.cover,
                                   ),
                                 )
