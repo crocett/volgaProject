@@ -80,6 +80,32 @@ class DatabaseHelper {
     rethrow;
   }
 }
+
+Future<void> forceUpdateFromAssets() async {
+  try {
+    final dbPath = await getDatabasesPath();
+    final path = join(dbPath, 'maininfo.db');
+    await closeDatabase();
+
+    final file = File(path);
+    if (await file.exists()) {
+      await file.delete();
+      print('Старая бд удалена');
+    } 
+
+    await Directory(dbPath).create(recursive: true);
+    final assetData = await rootBundle.load('assets/data/maininfo.db');
+    List<int> bytes = assetData.buffer.asUint8List(
+        assetData.offsetInBytes,
+        assetData.lengthInBytes,
+    );
+    await File(path).writeAsBytes(bytes, flush: true);
+    print('Новая БД скопирована из assets');
+  } catch (e) {
+    print('Ошибка при обновлении БД: $e');
+  }
+}
+
   Future<void> closeDatabase() async{
     if (_database != null) {
       await _database!.close();

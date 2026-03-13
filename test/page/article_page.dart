@@ -9,57 +9,190 @@ class ArticleDetailPage extends StatelessWidget {
 
   final DatabaseHelper _dbHelper = DatabaseHelper();
 
+  bool get hasTest {
+    return article['id_test']!=null && article ['id_test'] > 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.red,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: SafeArea(child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: Stack(  
         children: [
-          Padding(padding: EdgeInsets.fromLTRB(24, 24, 24, 24), child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                article['name'], 
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
-              ),
-            ],
+  
+          SizedBox.expand(
+            child: Image.asset(
+              article['image'],
+              fit: BoxFit.cover,
             ),
           ),
-          Expanded(child: Container(
-            width: double.infinity,
-            padding: EdgeInsets.fromLTRB(24, 32, 24, 32),
+
+          Container(
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.transparent, Colors.black26],
               ),
             ),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    article['articl'],
-                    style: TextStyle(fontSize: 16, height: 1.5, color: Colors.black),
+          ),
+
+          SafeArea(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(  
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back, color: Colors.white),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        article['name'],
+                        style: const TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Expanded(
+                  child: DraggableScrollableSheet(
+                    initialChildSize: 0.4,
+                    minChildSize: 0.3,
+                    maxChildSize: 1,
+                    snap: true,
+                    snapSizes: [0.4, 0.7, 1],
+                    builder: (context, scrollController) {  
+                      return Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30),
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(top: 8),
+                              width: 40,
+                              height: 4,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                            ),
+
+                            Expanded(
+                              child: SingleChildScrollView(
+                                controller: scrollController,  
+                                padding: const EdgeInsets.all(24),
+                                child: Column(
+                                children: [
+                                Text(
+                                  article['articl'],
+                                  textAlign: TextAlign.justify,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    height: 1.5,
+                                    color: Colors.black,
+                                  ),
+                                ),
+
+     if (hasTest) ...[
+                                      const SizedBox(height: 40),
+                                      
+                                      Container(
+                                        height: 2,
+                                        color: Colors.red[100],
+                                      ),
+                                      
+                                      const SizedBox(height: 30),
+
+                                      Center(
+                                        child: Column(
+                                          children: [
+                                            const Text(
+                                              'Готов проверить свои знания?',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black87,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            
+                                            const SizedBox(height: 20),
+                                            
+                                            // Кнопка "Пройти тест"
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                print('Нажат тест для статьи: ${article['name']}');
+                                                print('ID теста: ${article['id_test']}');
+                                                
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  const SnackBar(
+                                                    content: Text('Страница теста в разработке'),
+                                                    duration: Duration(seconds: 2),
+                                                  ),
+                                                );
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.red[600],
+                                                foregroundColor: Colors.white,
+                                                padding: const EdgeInsets.symmetric(
+                                                  horizontal: 40,
+                                                  vertical: 15,
+                                                ),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(30),
+                                                ),
+                                              ),
+                                              child: const Text(
+                                                'Пройти тест',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      
+                                      const SizedBox(height: 20),
+                                    ],
+                                ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ))
+          ),
         ],
-      )),
+      ),
     );
   }
 }
