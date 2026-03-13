@@ -15,7 +15,11 @@ class NextButton extends StatelessWidget {
           color: Colors.red,
         ),
         padding: EdgeInsets.symmetric(vertical: 15),
-        child: Text('Следующий вопрос', textAlign: TextAlign.center, style: TextStyle(color: Colors.white),),
+        child: Text(
+          'Следующий вопрос',
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.white, fontSize: 18),
+        ),
       ),
     );
   }

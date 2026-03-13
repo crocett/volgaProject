@@ -66,7 +66,7 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ),
       body: Container(
-        margin: EdgeInsets.only(top: 130.0),
+        margin: EdgeInsets.only(top: 150.0),
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(

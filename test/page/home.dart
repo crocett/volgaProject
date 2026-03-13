@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'quests_page.dart';
+import 'all_questions_page.dart';
+import 'questions_page.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({super.key});
@@ -342,7 +345,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => AllQuestionsPage()));
+                              },
                               child: Text('Тесты'),
                               style: TextButton.styleFrom(
                                 foregroundColor: const Color.fromARGB(
@@ -395,7 +400,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => QuestsPage()));
+                            },
                             child: Text('Квесты'),
                             style: TextButton.styleFrom(
                               foregroundColor: const Color.fromARGB(

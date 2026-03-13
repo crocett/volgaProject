@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../database_helper.dart';
+import 'questions_page.dart';
 
 class ArticleDetailPage extends StatelessWidget {
   final Map<String, dynamic> article;
@@ -10,21 +11,17 @@ class ArticleDetailPage extends StatelessWidget {
   final DatabaseHelper _dbHelper = DatabaseHelper();
 
   bool get hasTest {
-    return article['id_test']!=null && article ['id_test'] > 0;
+    return article['id_test'] != null && article['id_test'] > 0;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.red,
-      body: Stack(  
+      body: Stack(
         children: [
-  
           SizedBox.expand(
-            child: Image.asset(
-              article['image'],
-              fit: BoxFit.cover,
-            ),
+            child: Image.asset(article['image'], fit: BoxFit.cover),
           ),
 
           Container(
@@ -42,7 +39,7 @@ class ArticleDetailPage extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Row(  
+                  child: Row(
                     children: [
                       IconButton(
                         icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -78,7 +75,7 @@ class ArticleDetailPage extends StatelessWidget {
                     maxChildSize: 1,
                     snap: true,
                     snapSizes: [0.4, 0.7, 1],
-                    builder: (context, scrollController) {  
+                    builder: (context, scrollController) {
                       return Container(
                         decoration: const BoxDecoration(
                           color: Colors.white,
@@ -101,28 +98,28 @@ class ArticleDetailPage extends StatelessWidget {
 
                             Expanded(
                               child: SingleChildScrollView(
-                                controller: scrollController,  
+                                controller: scrollController,
                                 padding: const EdgeInsets.all(24),
                                 child: Column(
-                                children: [
-                                Text(
-                                  article['articl'],
-                                  textAlign: TextAlign.justify,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    height: 1.5,
-                                    color: Colors.black,
-                                  ),
-                                ),
+                                  children: [
+                                    Text(
+                                      article['articl'],
+                                      textAlign: TextAlign.justify,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        height: 1.5,
+                                        color: Colors.black,
+                                      ),
+                                    ),
 
-     if (hasTest) ...[
+                                    if (hasTest) ...[
                                       const SizedBox(height: 40),
-                                      
+
                                       Container(
                                         height: 2,
                                         color: Colors.red[100],
                                       ),
-                                      
+
                                       const SizedBox(height: 30),
 
                                       Center(
@@ -137,31 +134,45 @@ class ArticleDetailPage extends StatelessWidget {
                                               ),
                                               textAlign: TextAlign.center,
                                             ),
-                                            
+
                                             const SizedBox(height: 20),
-                                            
+
                                             // Кнопка "Пройти тест"
                                             ElevatedButton(
                                               onPressed: () {
-                                                print('Нажат тест для статьи: ${article['name']}');
-                                                print('ID теста: ${article['id_test']}');
-                                                
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  const SnackBar(
-                                                    content: Text('Страница теста в разработке'),
-                                                    duration: Duration(seconds: 2),
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        QuestionsPage(
+                                                          testId:
+                                                              article['id_test']
+                                                                  as int,
+                                                        ),
                                                   ),
                                                 );
+                                                // print('Нажат тест для статьи: ${article['name']}');
+                                                // print('ID теста: ${article['id_test']}');
+
+                                                // ScaffoldMessenger.of(context).showSnackBar(
+                                                //   const SnackBar(
+                                                //     content: Text('Страница теста в разработке'),
+                                                //     duration: Duration(seconds: 2),
+                                                //   ),
+                                                // );
                                               },
                                               style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.red[600],
+                                                backgroundColor:
+                                                    Colors.red[600],
                                                 foregroundColor: Colors.white,
-                                                padding: const EdgeInsets.symmetric(
-                                                  horizontal: 40,
-                                                  vertical: 15,
-                                                ),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 40,
+                                                      vertical: 15,
+                                                    ),
                                                 shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(30),
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
                                                 ),
                                               ),
                                               child: const Text(
@@ -175,10 +186,10 @@ class ArticleDetailPage extends StatelessWidget {
                                           ],
                                         ),
                                       ),
-                                      
+
                                       const SizedBox(height: 20),
                                     ],
-                                ],
+                                  ],
                                 ),
                               ),
                             ),

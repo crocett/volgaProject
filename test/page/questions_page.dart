@@ -24,6 +24,7 @@ class QuestionsPageState extends State<QuestionsPage> {
   bool _isLoading = true;
   bool isPressed = false;
   bool isAlreadySelected = false;
+  int? _selectedOptionId;
 
   @override
   void initState() {
@@ -73,6 +74,10 @@ class QuestionsPageState extends State<QuestionsPage> {
           result: score,
           questionLength: _questions.length,
           onPressed: startOver,
+          onReturnToTests: () {
+            Navigator.pop(ctx);
+            Navigator.pop(context);
+          },
         ),
       );
     } else {
@@ -87,15 +92,15 @@ class QuestionsPageState extends State<QuestionsPage> {
           SnackBar(
             content: Text('Пожалуйста выберите ответ'),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: const Color.fromARGB(255, 114, 199, 220),
-            margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            backgroundColor: const Color.fromARGB(255, 94, 94, 94),
+            //margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           ),
         );
       }
     }
   }
 
-  void checkAnswerAndUpdate(bool value) {
+  void checkAnswerAndUpdate(bool value, int optionId) {
     if (isAlreadySelected) {
       return;
     } else {
@@ -103,8 +108,9 @@ class QuestionsPageState extends State<QuestionsPage> {
         score++;
       }
       setState(() {
+        _selectedOptionId = optionId;
         isPressed = true;
-        isAlreadySelected = false;
+        isAlreadySelected = true;
       });
     }
   }
@@ -116,17 +122,19 @@ class QuestionsPageState extends State<QuestionsPage> {
       isPressed = false;
       isAlreadySelected = false;
     });
-    Navigator.pop(context);
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     if (_questions.isEmpty) {
       return Scaffold(
-        backgroundColor: background,
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
           title: const Text('Вернуться назад'),
-          backgroundColor: background,
+          backgroundColor: Colors.transparent,
           actions: [
             Padding(
               padding: EdgeInsets.all(15),
@@ -166,28 +174,36 @@ class QuestionsPageState extends State<QuestionsPage> {
             SizedBox(height: 25),
             ...((_questions[index]['options'] as List?)?.map((variant) {
                   return GestureDetector(
-                    onTap: () =>
-                        checkAnswerAndUpdate(variant['is_correct'] == 1),
+                    onTap: () => checkAnswerAndUpdate(
+                      variant['is_correct'] == 1,
+                      variant['id'],
+                    ),
                     child: OptionCard(
                       option: (variant['descr']?.toString() ?? 'Вариант'),
                       color: isPressed
-                          ? (variant['is_correct'] == 1)
-                                ? correct
-                                : incorrect
+                          ? (variant['id'] == _selectedOptionId)
+                                ? (variant['is_correct'] == 1)
+                                      ? correct
+                                      : incorrect
+                                : neutral
                           : neutral,
+                      isSelected:
+                          isPressed && (variant['id'] == _selectedOptionId),
                     ),
                   );
                 }).toList() ??
                 []),
+            SizedBox(height: 30),
+            NextButton(nextQuestion: nextQuestion),
           ],
         ),
       ),
 
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        child: NextButton(nextQuestion: nextQuestion),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: Padding(
+      //   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      //   child: NextButton(nextQuestion: nextQuestion),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
