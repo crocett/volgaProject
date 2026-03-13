@@ -37,9 +37,6 @@ flutter:
       - assets/images/круг_поменьше.png
       - assets/images/menu.png
       - assets/images/heart_1.svg
-<<<<<<< HEAD
-      - assets/images/heart_2.jpg
-=======
       - assets/images/heart_2.jpg
       - assets/images/fon_backg.png
       - assets/images/heart_home.png
@@ -47,3 +44,5 @@ flutter:
       - assets/images/star_1.png
       - assets/images/star_2.png
       - assets/data/maininfo.db
+      - assets/articles_images/fullsize_img/full_mother_pocrov.jpg
+      - assets/articles_images/fullsize_img/full_k_ivanov.jpg

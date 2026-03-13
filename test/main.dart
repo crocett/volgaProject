@@ -8,6 +8,7 @@ import 'database_helper.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DatabaseHelper().database;
+  await DatabaseHelper().forceUpdateFromAssets();
   print('База данных готова к работе');
   runApp(MaterialApp(home: MyApp()));
 }
