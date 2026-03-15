@@ -163,14 +163,13 @@ class _HomePageScreenState extends State<HomePageScreen> {
               child: Container(
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/interesnoe_img.png'),
+                    fit: BoxFit.cover,
+                    opacity: 0.85,
+                    ),
                   ),
-                  color: const Color.fromARGB(255, 179, 172, 172),
-                ),
                 width: double.infinity,
                 height: 200,
                 //color: const Color.fromARGB(255, 179, 172, 172),
@@ -186,6 +185,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -196,16 +196,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       child: TextButton(
                         onPressed: () {},
                         style: TextButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(
-                            255,
-                            179,
-                            172,
-                            172,
-                          ),
-                          side: BorderSide(
-                            color: const Color.fromARGB(150, 244, 67, 54),
-                            width: 2.0,
-                          ),
+                          backgroundColor: Colors.black.withOpacity(0.25),
                           padding: EdgeInsets.symmetric(
                             horizontal: 20,
                             vertical: 10,
@@ -240,21 +231,16 @@ class _HomePageScreenState extends State<HomePageScreen> {
               child: Container(
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
-                  //shape: Image.asset(''),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  ),
+                  image: DecorationImage(image: AssetImage('assets/images/pamyatniki_img.jpg'),
+                  fit: BoxFit.cover,
+                  opacity: 0.85,),
+                  borderRadius: BorderRadius.circular(20),
                   color: const Color.fromARGB(255, 179, 172, 172),
                 ),
                 width: double.infinity,
                 height: 200,
-                //color: const Color.fromARGB(255, 179, 172, 172),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  //mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     SizedBox(height: 20),
                     Padding(
@@ -264,7 +250,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
+                        
                       ),
                     ),
                     SizedBox(height: 20),
@@ -274,16 +262,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       child: TextButton(
                         onPressed: () {},
                         style: TextButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(
-                            255,
-                            179,
-                            172,
-                            172,
-                          ),
-                          side: BorderSide(
-                            color: const Color.fromARGB(150, 244, 67, 54),
-                            width: 2.0,
-                          ),
+                          backgroundColor: Colors.black.withOpacity(0.25),
                           padding: EdgeInsets.symmetric(
                             horizontal: 20,
                             vertical: 10,
@@ -312,54 +291,66 @@ class _HomePageScreenState extends State<HomePageScreen> {
               ),
             ),
             //теперь две
+            Divider(
+              height: 20,           
+              thickness: 2,       
+              indent: 35,           
+              endIndent: 35,       
+              color: Colors.red,  
+            ),
             Row(
               children: [
-                Expanded(
+                        Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 30, top: 10),
+                    padding: EdgeInsets.only(left: 30, top: 10, right: 15),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context, 
+                          MaterialPageRoute(builder: (context) => AllQuestionsPage())
+                        );
+                      },
                       style: TextButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 179, 172, 172),
-                        foregroundColor: Color.fromARGB(255, 112, 108, 108),
-                        //primary: Colors.grey,
+                        backgroundColor: Colors.transparent,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)
-                          
-                        )
+                        ),
+                        padding: EdgeInsets.zero,
                       ),
                       child: Container(
                         clipBehavior: Clip.antiAlias,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20),
-                            bottomLeft: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                            image: AssetImage('assets/images/test_img.jpg'), 
+                            fit: BoxFit.cover,
+                            opacity: 0.8,
                           ),
-                          //color: const Color.fromARGB(255, 179, 172, 172),
                         ),
                         width: double.infinity,
                         height: 100,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Stack(
                           children: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => AllQuestionsPage()));
-                              },
-                              child: Text('Тесты'),
-                              style: TextButton.styleFrom(
-                                foregroundColor: const Color.fromARGB(
-                                  255,
-                                  0,
-                                  0,
-                                  0,
-                                ),
-                                textStyle: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.black.withOpacity(0.25),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Тесты',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -369,61 +360,64 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   ),
                 ),
                 Expanded(
-                  child: 
-                  Padding(
-                    padding: EdgeInsets.only(left: 30, top: 10, right: 30),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 15, top: 10, right: 30),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context, 
+                          MaterialPageRoute(builder: (context) => QuestsPage())
+                        );
+                      },
                       style: TextButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 179, 172, 172),
-                        foregroundColor: Color.fromARGB(255, 112, 108, 108),
-                        //primary: Colors.grey,
+                        backgroundColor: Colors.transparent,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)
-                          
-                        )
+                        ),
+                        padding: EdgeInsets.zero,
                       ),
                       child: Container(
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                            image: AssetImage('assets/images/quest_img.jpg'),
+                            fit: BoxFit.cover,
+                            opacity: 0.8,
+                          ),
                         ),
-                        //color: const Color.fromARGB(255, 179, 172, 172),
-                      ),
-                      width: double.infinity,
-                      height: 100,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => QuestsPage()));
-                            },
-                            child: Text('Квесты'),
-                            style: TextButton.styleFrom(
-                              foregroundColor: const Color.fromARGB(
-                                255,
-                                0,
-                                0,
-                                0,
-                              ),
-                              textStyle: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
+                        width: double.infinity,
+                        height: 100,
+                        child: Stack(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.black.withOpacity(0.25),
                               ),
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Квесты',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    )
-                    
                   ),
-                ),
+                ),  
               ],
             ),
           ],

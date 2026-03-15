@@ -48,3 +48,8 @@ flutter:
       - assets/articles_images/fullsize_img/full_k_ivanov.jpg
       - assets/articles_images/smallsize_img/sm_mother_pocrov.jpg
       - assets/articles_images/smallsize_img/sm_k_ivanov.jpg
+      - assets/images/quest_img.jpg
+      - assets/images/test_img.jpg
+      - assets/images/pamyatniki_img.jpg
+      - assets/images/interesnoe_img.png
+      - assets/articles_images/fullsize_img/full_city_cheboksary.webp
