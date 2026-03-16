@@ -52,7 +52,7 @@ class ArticleDetailPage extends StatelessWidget {
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 5),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -67,6 +67,12 @@ class ArticleDetailPage extends StatelessWidget {
                     ],
                   ),
                 ),
+
+                Padding(
+                  padding: EdgeInsetsGeometry.fromLTRB(19, 0, 19, 0),
+                  child: _buildTags(),
+                ),
+                SizedBox(height: 10),
 
                 Expanded(
                   child: DraggableScrollableSheet(
@@ -205,5 +211,84 @@ class ArticleDetailPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildTags() {
+    final List<Widget> tags = [];
+
+    if (article['historic'] == 1) {
+      tags.add(
+        Padding(
+          padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10),
+          child: Container(
+            //padding: EdgeInsets.only(top: 12, right: 8),
+            decoration: BoxDecoration(
+              //color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.history_edu, size: 20, color: Colors.white),
+                SizedBox(width: 5),
+                Text('Исторический', style: TextStyle(fontSize: 18, color: Colors.white)),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (article['culture'] == 1) {
+      tags.add(
+        Padding(
+          padding: const EdgeInsets.only(top: 10.0, left: 10.0, right: 10),
+          child: Container(
+            //padding: EdgeInsets.only(top: 12, right: 8, left: 10),
+            decoration: BoxDecoration(
+              //color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.theater_comedy, size: 20, color: Colors.white),
+                SizedBox(width: 5),
+                Text('Культура', style: TextStyle(fontSize: 18, color: Colors.white)),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (article['center'] == 1) {
+      tags.add(
+        Padding(
+          padding: const EdgeInsets.only(top: 10.0, left: 10.0, right: 10),
+          child: Container(
+            //padding: EdgeInsets.only(top: 12, right: 8, left: 10),
+            decoration: BoxDecoration(
+              //color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.location_city, size: 20, color: Colors.white),
+                SizedBox(width: 5),
+                Text('Центр', style: TextStyle(fontSize: 18, color: Colors.white),),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (tags.isEmpty) {
+      return SizedBox.shrink();
+    }
+
+    return Wrap(children: tags);
   }
 }
