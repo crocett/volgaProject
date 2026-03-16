@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqlite_api.dart';
 import '../constants.dart';
 import '../database_helper.dart';
 import '../widget/question_widget.dart';
 import '../widget/next_button.dart';
 import '../widget/option_card.dart';
 import '../widget/result_box.dart';
+import '../database_helper.dart';
 
 class QuestionsPage extends StatefulWidget {
   final int testId;
@@ -29,11 +31,18 @@ class QuestionsPageState extends State<QuestionsPage> {
   @override
   void initState() {
     super.initState();
+    DatabaseHelper().debugCheckTestResultTable();
     _loadQuestion();
   }
 
   Future<void> _loadQuestion() async {
     try {
+      final existingResult = await _dbHelper.getLastTestResult(widget.testId);
+      if (existingResult != null) {
+        _showAlreadyPassedDialog(existingResult['t_result']);
+        return;
+      }
+
       final db = await _dbHelper.database;
       final data = await db.query(
         'question',
@@ -64,19 +73,101 @@ class QuestionsPageState extends State<QuestionsPage> {
     }
   }
 
-  void nextQuestion() {
+  void _showAlreadyPassedDialog(int previousResult) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Вы уже прошли данный тест', style: TextStyle(fontSize: 20)),
+            SizedBox(height: 20),
+            CircleAvatar(
+              radius: 80,
+              backgroundColor:
+                  previousResult >=
+                      (_questions.isEmpty ? 5 : _questions.length / 2)
+                  ? correct
+                  : incorrect,
+              child: Text(
+                '$previousResult/${_questions.isEmpty ? '1' : _questions.length}',
+                style: TextStyle(fontSize: 30, color: background),
+              ),
+            ),
+            SizedBox(height: 20),
+            Text('Ваш предыдущий результат', style: TextStyle(fontSize: 18)),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            child: Text('Вернуться', style: TextStyle(color: Colors.grey[600])),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              //Navigator.pop(context);
+              _startTestRetake();
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[600]),
+            child: Text('Пройти заново', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _startTestRetake() async {
+    if (mounted) {
+      Navigator.pop(context);
+    }
+    await Future.delayed(Duration(microseconds: 300));
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _isLoading = false;
+      index = 0;
+      score = 0;
+      isPressed = false;
+      isAlreadySelected = false;
+      _selectedOptionId = null;
+      _questions = [];
+    });
+    //_loadQuestion();
+    // if (_questions.isEmpty) {
+    //   _loadQuestion();
+    // }
+  }
+
+  void nextQuestion() async {
     if (index == _questions.length - 1) {
-      //здесь наверное можно будет прописать что-то другое, так как он останавливает, когда мы доходим до последнего вопроса
+      print('Тест завершён!');
+      print('testId: ${widget.testId}, score: $score');
+      
+      try {
+        await _dbHelper.saveOrUpdateTestResult(widget.testId, score);
+        print('Результат сохранен: $score');
+      } catch (e) {
+        print('Ошибка сохранения результата: $e');
+      }
+
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (ctx) => ResultBox(
+        builder: (context) => ResultBox(
           result: score,
           questionLength: _questions.length,
-          onPressed: startOver,
-          onReturnToTests: () {
-            Navigator.pop(ctx);
+
+          onPressed: () {
             Navigator.pop(context);
+          },
+          onReturnToTests: () {
+            Navigator.pop(context);
+            Navigator.pop(context, score);
           },
         ),
       );
@@ -131,9 +222,9 @@ class QuestionsPageState extends State<QuestionsPage> {
   Widget build(BuildContext context) {
     if (_questions.isEmpty) {
       return Scaffold(
-        backgroundColor: Colors.transparent,
+        //backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: const Text('Вернуться назад'),
+          title: const Text('Вернуться назад', style: TextStyle()),
           backgroundColor: Colors.transparent,
           actions: [
             Padding(
