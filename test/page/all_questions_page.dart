@@ -23,19 +23,19 @@ class _AllQuestionsPageState extends State<AllQuestionsPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _loadArticles();
+    _loadTests();
   }
 
-  Future<void> _loadArticles() async {
+  //загрузка тестов из maininfo.db
+  Future<void> _loadTests() async {
     try {
       setState(() {
         _isLoading = true;
         _errorMessage = null;
       });
 
-      final Database db = await _dbHelper.database;
+      final Database db = await _dbHelper.mainDb;
       final tables = await db.query(
         'sqlite_master',
         where: 'type = ? AND name = ?',
@@ -50,6 +50,7 @@ class _AllQuestionsPageState extends State<AllQuestionsPage> {
         return;
       }
 
+      //загружаем все тесты
       final List<Map<String, dynamic>> tests = await db.query('test');
       print('Загружено тестов: ${tests.length}');
       if (tests.isNotEmpty) {
@@ -94,6 +95,7 @@ class _AllQuestionsPageState extends State<AllQuestionsPage> {
               ),
             ),
           ),
+          //контент
           _isLoading
               ? const Center(child: CircularProgressIndicator())
               : _errorMessage != null

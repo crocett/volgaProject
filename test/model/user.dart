@@ -19,4 +19,13 @@ class User {
       isDartMode: isDartMode ?? this.isDartMode
     );
   }
+
+  factory User.fromProfileData(Map<String, dynamic> data, User defaults) {
+    return User(
+      name: data['name'] as String? ?? defaults.name,
+      imagePath: data['image'] as String? ?? defaults.imagePath,
+      level: defaults.level,
+      isDartMode: defaults.isDartMode,
+    );
+  }
 }

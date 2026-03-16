@@ -18,17 +18,44 @@ class PersonalAccount extends StatefulWidget {
 }
 
 class _PersonalAccountState extends State<PersonalAccount> {
-  final user = UserPreferences.myUser;
+  //final user = UserPreferences.myUser;
   final DatabaseHelper _dbHelper = DatabaseHelper();
+  late User _user = UserPreferences.myUser;
+
   List<Map<String, dynamic>> _recentTest = [];
   bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _loadRecentTests();
+    _initPage();
   }
 
+  Future<void> _initPage() async {
+    // await Future.wait([_loadUserProfile(), _loadRecentTests()]);
+    // setState(() {
+    //   _isLoading = false;
+    // });
+    await _loadUserProfile();
+  }
+
+  //загрузка профиля из бд
+  Future<void> _loadUserProfile() async {
+    try {
+      final userFromDb = await _dbHelper.getUserAsModel();
+      setState(() {
+        _user = userFromDb;
+        UserPreferences.myUser = userFromDb;
+      });
+    } catch (e) {
+      print('Ошибка загрузки профиля: &e');
+      setState(() {
+        _user = UserPreferences.myUser;
+      });
+    }
+  }
+
+  //загрузка последних тестов (без изменений)
   Future<void> _loadRecentTests() async {
     try {
       final allResult = await _dbHelper.getAllTestResultsWithStats();
@@ -45,7 +72,19 @@ class _PersonalAccountState extends State<PersonalAccount> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: buildAppBar(context),
@@ -66,15 +105,21 @@ class _PersonalAccountState extends State<PersonalAccount> {
             children: [
               SizedBox(height: 100),
               ProfileWidget(
-                imagePath: user.imagePath,
+                imagePath: _user.imagePath,
                 onClicked: () async {
-                  Navigator.of(context).push(
+                  final result = await Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => EditProfilePage()),
                   );
+                  if (result == true) {
+                    setState(() {
+                      _loadUserProfile();
+                    });
+                  }
                 },
               ),
               const SizedBox(height: 25),
-              buildName(user),
+              buildName(_user),
+
               SizedBox(height: 20),
               _isLoading
                   ? Center(child: CircularProgressIndicator())

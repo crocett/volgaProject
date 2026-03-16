@@ -4,11 +4,14 @@ import 'home_page.dart';
 import 'package:splashscreen/splashscreen.dart';
 //import 'package:volga/main.dart';
 import 'database_helper.dart';
+import 'user_pref.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DatabaseHelper().database;
-  await DatabaseHelper().forceUpdateFromAssets();
+  UserPreferences.init();
+  await _initDatabases();
+  // await DatabaseHelper().database;
+  // await DatabaseHelper().forceUpdateFromAssets();
   print('База данных готова к работе');
   runApp(MaterialApp(home: MyApp()));
 }
@@ -21,7 +24,11 @@ class MyApp extends StatelessWidget {
       navigateAfterSeconds: HomePage(),
       title: Text(
         'Сердце Поволжья',
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35, color: const Color.fromARGB(255, 221, 27, 27)),
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 35,
+          color: const Color.fromARGB(255, 221, 27, 27),
+        ),
       ),
       image: Image.asset(
         'assets/images/heart.png',
@@ -32,5 +39,19 @@ class MyApp extends StatelessWidget {
       //backgroundColor: Colors.white,
       loaderColor: const Color.fromARGB(255, 221, 27, 27),
     );
+  }
+}
+
+Future<void> _initDatabases() async {
+  final dbHelper = DatabaseHelper();
+  try {
+    await dbHelper.mainDb;
+    print('maininfo.db готова');
+
+    await dbHelper.profileDb;
+    print('profileinfo.db готова');
+    
+  } catch (e) {
+    print('Ошибка инициализвции БД $e');
   }
 }

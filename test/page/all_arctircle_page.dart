@@ -19,7 +19,6 @@ class _ArctirclePageState extends State<ArctirclePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _loadArticles();
   }
@@ -31,7 +30,7 @@ class _ArctirclePageState extends State<ArctirclePage> {
         _errorMessage = null;
       });
 
-      final Database db = await _dbHelper.database;
+      final Database db = await _dbHelper.mainDb;
       final tables = await db.query(
         'sqlite_master',
         where: 'type = ? AND name = ?',
@@ -45,7 +44,8 @@ class _ArctirclePageState extends State<ArctirclePage> {
         });
         return;
       }
-
+      
+      //загружаем все статьи
       final List<Map<String, dynamic>> articles = await db.query('article');
       print('Загружено статей: ${articles.length}');
       if (articles.isNotEmpty) {
@@ -63,21 +63,8 @@ class _ArctirclePageState extends State<ArctirclePage> {
         _isLoading = false;
       });
     }
-    // final Database db = await _dbHelper.database;
-    // final List<Map<String, dynamic>> articles = await db.query('article');
-    // setState(() {
-    //   _articles = articles;
-    // });
   }
 
-  // String _formatDateTime(String dateTimeStr) {
-  //   try {
-  //     final DateTime dateTime = DateTime.parse(dateTimeStr);
-  //     return '${dateTime.day.toString().padLeft(2, '0')}.${dateTime.month.toString().padLeft(2, '0')}.${dateTime.year}';
-  //   } catch (e) {
-  //     return dateTimeStr; // Если формат даты неверный, возвращаем исходную строку
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {

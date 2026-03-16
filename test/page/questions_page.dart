@@ -32,19 +32,24 @@ class QuestionsPageState extends State<QuestionsPage> {
   void initState() {
     super.initState();
     DatabaseHelper().debugCheckTestResultTable();
-    _loadQuestion();
+    _initPage();
   }
 
+  Future<void> _initPage() async {
+    final existingRes = await _dbHelper.getLastTestResult(widget.testId);
+
+    if (existingRes != null) {
+      _showAlreadyPassedDialog(existingRes['t_result']);
+      return;
+    }
+    await _loadQuestion();
+  }
+
+  //загрузка вопросов
   Future<void> _loadQuestion() async {
     try {
-      final existingResult = await _dbHelper.getLastTestResult(widget.testId);
-      if (existingResult != null) {
-        _showAlreadyPassedDialog(existingResult['t_result']);
-        return;
-      }
-
-      final db = await _dbHelper.database;
-      final data = await db.query(
+      final db = await _dbHelper.mainDb;
+      final questions = await db.query(
         'question',
         where: 'id_test = ?',
         whereArgs: [widget.testId],
@@ -52,7 +57,7 @@ class QuestionsPageState extends State<QuestionsPage> {
       );
 
       final List<Map<String, dynamic>> questionVariant = [];
-      for (var q in data) {
+      for (var q in questions) {
         final variants = await db.query(
           'variant',
           where: 'id_quest = ?',
@@ -66,6 +71,9 @@ class QuestionsPageState extends State<QuestionsPage> {
       setState(() {
         _questions = questionVariant;
         _isLoading = false;
+        score = 0;
+        index = 0;
+        _selectedOptionId = null;
       });
     } catch (e) {
       print('Ошибка загрузки вопросов: $e');
@@ -73,6 +81,7 @@ class QuestionsPageState extends State<QuestionsPage> {
     }
   }
 
+  //если тест уже пройден
   void _showAlreadyPassedDialog(int previousResult) {
     showDialog(
       context: context,
@@ -108,7 +117,7 @@ class QuestionsPageState extends State<QuestionsPage> {
           ),
           ElevatedButton(
             onPressed: () {
-              //Navigator.pop(context);
+              Navigator.pop(context);
               _startTestRetake();
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[600]),
@@ -119,15 +128,8 @@ class QuestionsPageState extends State<QuestionsPage> {
     );
   }
 
+  //перепрохождение теста
   void _startTestRetake() async {
-    if (mounted) {
-      Navigator.pop(context);
-    }
-    await Future.delayed(Duration(microseconds: 300));
-    if (!mounted) {
-      return;
-    }
-
     setState(() {
       _isLoading = false;
       index = 0;
@@ -137,12 +139,23 @@ class QuestionsPageState extends State<QuestionsPage> {
       _selectedOptionId = null;
       _questions = [];
     });
+    _loadQuestion();
+
+    // if (mounted) {
+    //   Navigator.pop(context);
+    // }
+    // await Future.delayed(Duration(microseconds: 300));
+    // if (!mounted) {
+    //   return;
+    // }
+    
     //_loadQuestion();
     // if (_questions.isEmpty) {
     //   _loadQuestion();
     // }
   }
 
+  //следующий вопрос/завершение
   void nextQuestion() async {
     if (index == _questions.length - 1) {
       print('Тест завершён!');
@@ -151,6 +164,16 @@ class QuestionsPageState extends State<QuestionsPage> {
       try {
         await _dbHelper.saveOrUpdateTestResult(widget.testId, score);
         print('Результат сохранен: $score');
+
+        final check = await _dbHelper.profileDb.then((db) => db.query(
+          'test_result',
+          where: 'id_test = ?',
+          whereArgs: [widget.testId]
+        ));
+        print('Проверка, найдено записей = ${check.length}');
+        if (check.isEmpty) {
+          print('Данные: ${check.first}');
+        }
       } catch (e) {
         print('Ошибка сохранения результата: $e');
       }
@@ -191,6 +214,7 @@ class QuestionsPageState extends State<QuestionsPage> {
     }
   }
 
+  //проверка
   void checkAnswerAndUpdate(bool value, int optionId) {
     if (isAlreadySelected) {
       return;
@@ -206,6 +230,7 @@ class QuestionsPageState extends State<QuestionsPage> {
     }
   }
 
+  //перезапуск
   void startOver() {
     setState(() {
       index = 0;
@@ -289,12 +314,6 @@ class QuestionsPageState extends State<QuestionsPage> {
           ],
         ),
       ),
-
-      // floatingActionButton: Padding(
-      //   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      //   child: NextButton(nextQuestion: nextQuestion),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

@@ -95,7 +95,7 @@ class _ResultTestPageState extends State<ResultTestPage> {
           ),
         ),
         title: Text(testName, style: TextStyle(fontWeight: FontWeight.w600)),
-        subtitle: Text('$result/$totalQuestions • ${test['created_at'] ?? ''}'),
+        //subtitle: Text('$result/$totalQuestions • ${test['created_at'] ?? ''}'),
         trailing: Text(
           '$percentage%',
           style: TextStyle(fontWeight: FontWeight.bold, color: color),
