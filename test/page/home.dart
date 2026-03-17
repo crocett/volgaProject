@@ -48,10 +48,10 @@ class _HomePageScreenState extends State<HomePageScreen> {
       //   ),
       // ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.only(bottom: 50),
+        //padding: EdgeInsets.only(top: 20),
         child: Column(
           children: [
-            SizedBox(height: 40),
+            SizedBox(height: 60),
             Padding(
               padding: EdgeInsets.all(10),
               child: Row(

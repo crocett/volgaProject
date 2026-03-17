@@ -36,20 +36,20 @@ class _SearchPageState extends State<SearchPage> {
                     fontWeight: FontWeight.w300,
                   ),
                   decoration: InputDecoration(
-                    hintText: 'Поиск чего-то там',
+                    hintText: 'Введите...',
                     hintStyle: TextStyle(color: Colors.white),
                     labelStyle: TextStyle(color: Colors.white),
 
                     border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white, width: 0.4),
+                      borderSide: BorderSide(color: Colors.white, width: 1),
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white, width: 0.4),
+                      borderSide: BorderSide(color: Colors.white, width: 1),
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white, width: 0.4),
+                      borderSide: BorderSide(color: Colors.white, width: 1),
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
                     //icon: Icon(Icons.cancel, color: Colors.white, size: 30,),
@@ -78,28 +78,11 @@ class _SearchPageState extends State<SearchPage> {
         constraints: const BoxConstraints.expand(),
         child: Center(
           child: Text(
-            'Какой-то текст',
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w200),
+            'Здесь должен быть поиск',
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w200),
           ),
         ),
       ),
-
-      // child: Stack(
-      //   children: [
-      //     Positioned.fill(
-      //       child: DecoratedBox(
-      //         decoration: BoxDecoration(
-      //           image: DecorationImage(
-      //             image: AssetImage("assets/images/fon_backg.png"),
-      //             fit: BoxFit.cover,
-      //           ),
-      //         ),
-      //       ),
-      //     ),
-      //     const Text('Пока ничего нет'),
-      //   ],
-      // ),
-      //),
     );
   }
 }
