@@ -27,6 +27,8 @@ class QuestionsPageState extends State<QuestionsPage> {
   bool isPressed = false;
   bool isAlreadySelected = false;
   int? _selectedOptionId;
+  String? _selectedAnswerDescr;
+  bool _showAnswerDescr = false;
 
   @override
   void initState() {
@@ -200,6 +202,8 @@ class QuestionsPageState extends State<QuestionsPage> {
           index++;
           isPressed = false;
           isAlreadySelected = false;
+          _showAnswerDescr = false;
+        _selectedAnswerDescr = null;
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -222,10 +226,18 @@ class QuestionsPageState extends State<QuestionsPage> {
       if (value == true) {
         score++;
       }
+      final questionData = _questions[index];
+      final descr = questionData['answ_descr']?.toString();
+        print('🔍 [DEBUG] после toString(): "$descr"');
+  print('🔍 [DEBUG] isEmpty: ${descr?.isEmpty}');
+  print('🔍 [DEBUG] _showAnswerDescr будет: ${descr != null && descr.trim().isNotEmpty}');
+        
       setState(() {
         _selectedOptionId = optionId;
         isPressed = true;
         isAlreadySelected = true;
+        _selectedAnswerDescr = descr;
+        _showAnswerDescr = descr != null && descr.isNotEmpty;
       });
     }
   }
@@ -279,6 +291,30 @@ class QuestionsPageState extends State<QuestionsPage> {
         child: Column(
           children: [
             SizedBox(height: 20),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(_questions.length, (i){
+                bool isCurrent = i == index;
+                bool isPassed = i < index;
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  width: 10,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: isCurrent
+                    ? Colors.red
+                    :isPassed
+                    ? const Color.fromARGB(255, 199, 191, 191)
+                    :neutral,
+                  ),
+                );
+              }),
+            ),
+
+            SizedBox(height: 20),
+
             QuestionWidget(
               question:
                   _questions[index]['descr']?.toString() ??
@@ -309,6 +345,29 @@ class QuestionsPageState extends State<QuestionsPage> {
                   );
                 }).toList() ??
                 []),
+                SizedBox(height: 10),
+
+                if(_showAnswerDescr && _selectedAnswerDescr != null)
+                AnimatedContainer(duration: Duration(milliseconds: 300),
+                margin: EdgeInsets.only(bottom: 20),
+                padding: EdgeInsets.all(16),
+                width: double.infinity,
+                 decoration: BoxDecoration(
+      color: const Color.fromARGB(255, 242, 234, 234),
+      borderRadius: BorderRadius.circular(12),
+    ),
+                   child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 8,),
+                    Text(
+                      _selectedAnswerDescr?? 'Пусто',
+                      style: TextStyle( fontSize: 16, height: 1.4),
+                    ),
+                  ],
+                )
+                ),
+             
             SizedBox(height: 30),
             NextButton(nextQuestion: nextQuestion),
           ],
