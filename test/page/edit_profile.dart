@@ -56,7 +56,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
       if (pickedFile != null) {
         final appDir = await getApplicationDocumentsDirectory();
         final fileName = 'profile_${DateTime.now().millisecondsSinceEpoch}.jpg';
-        final savedImage = await File(pickedFile.path).copy('${appDir.path}/$fileName');
+        final savedImage = await File(
+          pickedFile.path,
+        ).copy('${appDir.path}/$fileName');
 
         setState(() {
           _pickedImageFile = savedImage;
@@ -99,7 +101,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
       if (_pickedImageFile != null) {
         print('Обновляем фото');
-        success = await _dbHelper.updateUserPhoto(_pickedImageFile!.path) && success;
+        success =
+            await _dbHelper.updateUserPhoto(_pickedImageFile!.path) && success;
       }
 
       if (success && mounted) {
@@ -108,20 +111,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
           imagePath: _pickedImageFile?.path ?? _user.imagePath,
         );
         Navigator.pop(context, true);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Профиль обновлен'))
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Профиль обновлен')));
       } else if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Ошибка сохраненяит'))
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Ошибка сохраненяит')));
       }
     } catch (e) {
       print('Ошибка при сохранении');
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Ошибка: $e'))
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Ошибка: $e')));
       }
     } finally {
       if (mounted) {
@@ -158,66 +161,69 @@ class _EditProfilePageState extends State<EditProfilePage> {
           Column(
             children: [
               SizedBox(height: 100),
-                  //картинка
-                  Container(
-                    decoration: BoxDecoration(
+              //картинка
+              Container(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: const Color.fromARGB(153, 244, 67, 54), 
+                      color: const Color.fromARGB(153, 244, 67, 54),
                       //offset: Offset(5, 5),
                       blurRadius: 10,
-                      spreadRadius: 2
+                      spreadRadius: 2,
                     ),
                     BoxShadow(
                       color: Colors.white,
                       blurRadius: 0,
                       spreadRadius: 0,
-                    )
+                    ),
                   ],
                 ),
-                    child: ProfileWidget(
-                      imagePath: _pickedImageFile?.path ?? _user.imagePath,
-                      isEdit: true,
-                      onClicked: _pickImage,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  //имя
-                  Padding(
-                    padding: EdgeInsets.all(25),
-                    child: TextfieldWidget(
-                      label: 'Имя',
-                      text: _user.name,
-                      onChanged: (name) {
-                        print('onChanged вызван $name');
-                        setState(() {
-                          _newName = name;
-                        });
-                      },
-                    ),
-                  ),
-                  //const Spacer(),
-                  SizedBox(height: 20),
-                  //кнопка сохранения
-                  Padding(
-                    padding: EdgeInsets.all(25),
-                    child: ElevatedButton(
-                      onPressed: _saveProfile,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 221, 27, 27),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: const Text(
-                        'Сохранить',
-                        style: TextStyle(fontSize: 17, color: Colors.white),
+                child: ProfileWidget(
+                  imagePath: _pickedImageFile?.path ?? _user.imagePath,
+                  isEdit: true,
+                  onClicked: _pickImage,
+                ),
+              ),
+              const SizedBox(height: 24),
+              //имя
+              Padding(
+                padding: EdgeInsets.all(25),
+                child: TextfieldWidget(
+                  label: 'Имя',
+                  text: _user.name,
+                  onChanged: (name) {
+                    print('onChanged вызван $name');
+                    setState(() {
+                      _newName = name;
+                    });
+                  },
+                ),
+              ),
+              //const Spacer(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                child: SizedBox(
+                  height: 50,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _saveProfile,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 221, 27, 27),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
                     ),
+                    child: const Text(
+                      'Сохранить',
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
                   ),
+                ),
+              ),
+              //кнопка сохранения
 
-                  //const SizedBox(height: 24),
+              //const SizedBox(height: 24),
             ],
           ),
         ],

@@ -81,24 +81,40 @@ class _ResultTestPageState extends State<ResultTestPage> {
         ? Colors.orange
         : Colors.red;
 
-    return Card(
-      margin: EdgeInsets.only(bottom: 12),
-      color: Colors.white.withOpacity(0.95),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: ListTile(
-        contentPadding: EdgeInsets.all(16),
-        leading: CircleAvatar(
-          backgroundColor: color,
-          child: Text(
-            '$result',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              offset: Offset(4, 2),
+              blurRadius: 10,
+              spreadRadius: 1,
+            ),
+          ],
         ),
-        title: Text(testName, style: TextStyle(fontWeight: FontWeight.w600)),
-        //subtitle: Text('$result/$totalQuestions • ${test['created_at'] ?? ''}'),
-        trailing: Text(
-          '$percentage%',
-          style: TextStyle(fontWeight: FontWeight.bold, color: color),
+        child: Card(
+          margin: EdgeInsets.only(bottom: 12),
+          color: Colors.white.withOpacity(0.95),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: ListTile(
+            contentPadding: EdgeInsets.all(16),
+            leading: CircleAvatar(
+              backgroundColor: color,
+              child: Text(
+                '$result',
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+            title: Text(testName, style: TextStyle(fontWeight: FontWeight.w600)),
+            //subtitle: Text('$result/$totalQuestions • ${test['created_at'] ?? ''}'),
+            trailing: Text(
+              '$percentage%',
+              style: TextStyle(fontWeight: FontWeight.bold, color: color),
+            ),
+          ),
         ),
       ),
     );

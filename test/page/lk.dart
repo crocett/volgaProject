@@ -32,26 +32,39 @@ class _PersonalAccountState extends State<PersonalAccount> {
   }
 
   Future<void> _initPage() async {
-    // await Future.wait([_loadUserProfile(), _loadRecentTests()]);
-    // setState(() {
-    //   _isLoading = false;
-    // });
-    await _loadUserProfile();
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      await Future.wait([_loadUserProfile(), _loadRecentTests()]);
+    } catch (e) {
+      print('Ошибка инициализации: $e');
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   //загрузка профиля из бд
   Future<void> _loadUserProfile() async {
     try {
       final userFromDb = await _dbHelper.getUserAsModel();
-      setState(() {
-        _user = userFromDb;
-        UserPreferences.myUser = userFromDb;
-      });
+      if (mounted) {
+        setState(() {
+          _user = userFromDb;
+          UserPreferences.myUser = userFromDb;
+        });
+      }
     } catch (e) {
-      print('Ошибка загрузки профиля: &e');
-      setState(() {
-        _user = UserPreferences.myUser;
-      });
+      print('Ошибка загрузки профиля: $e');
+      if (mounted) {
+        setState(() {
+          _user = UserPreferences.myUser;
+        });
+      }
     }
   }
 
@@ -109,16 +122,16 @@ class _PersonalAccountState extends State<PersonalAccount> {
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: const Color.fromARGB(153, 244, 67, 54), 
+                      color: const Color.fromARGB(153, 244, 67, 54),
                       //offset: Offset(5, 5),
                       blurRadius: 10,
-                      spreadRadius: 2
+                      spreadRadius: 2,
                     ),
                     BoxShadow(
                       color: Colors.white,
                       blurRadius: 0,
                       spreadRadius: 0,
-                    )
+                    ),
                   ],
                 ),
                 child: ProfileWidget(
@@ -129,10 +142,12 @@ class _PersonalAccountState extends State<PersonalAccount> {
                         builder: (context) => EditProfilePage(),
                       ),
                     );
-                    if (result == true) {
-                      setState(() {
-                        _loadUserProfile();
-                      });
+                    if (result == true && mounted) {
+                      await _loadUserProfile();
+                      await _loadRecentTests();
+                      // setState(() {
+                      //   _loadUserProfile();
+                      // });
                     }
                   },
                 ),
@@ -148,10 +163,10 @@ class _PersonalAccountState extends State<PersonalAccount> {
                   ? _buildNoTestsMessage()
                   : _buildRecentTestsSection(),
               const Spacer(),
-              Padding(
-                padding: EdgeInsets.only(bottom: 30),
-                child: Center(child: buildUpgrateButton()),
-              ),
+              // Padding(
+              //   padding: EdgeInsets.only(bottom: 30),
+              //   child: Center(child: buildUpgrateButton()),
+              // ),
             ],
           ),
         ],
@@ -170,14 +185,14 @@ class _PersonalAccountState extends State<PersonalAccount> {
     ],
   );
 
-  Widget buildUpgrateButton() => ButtonWidget(
-    text: 'Мои достижения',
-    onClicked: () {
-      Navigator.of(
-        context,
-      ).push(MaterialPageRoute(builder: (context) => ResultTestPage()));
-    },
-  );
+  // Widget buildUpgrateButton() => ButtonWidget(
+  //   text: 'Мои достижения',
+  //   onClicked: () {
+  //     Navigator.of(
+  //       context,
+  //     ).push(MaterialPageRoute(builder: (context) => ResultTestPage()));
+  //   },
+  // );
 
   Widget _buildNoTestsMessage() {
     return Padding(
@@ -207,7 +222,7 @@ class _PersonalAccountState extends State<PersonalAccount> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: EdgeInsets.only(top: 50),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -215,12 +230,19 @@ class _PersonalAccountState extends State<PersonalAccount> {
                 'Последние тесты',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
                   color: Colors.black87,
                 ),
               ),
-              if (_recentTest.length >= 2)
+              
+            ],
+          ),
+        ),
+        SizedBox(height: 8),
+        ..._recentTest.map((test) => _buildTestCard(test)),
+        SizedBox(height: 20),
+        if (_recentTest.length >= 2)
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).push(
@@ -229,15 +251,9 @@ class _PersonalAccountState extends State<PersonalAccount> {
                   },
                   child: Text(
                     'Все пройденные тесты',
-                    style: TextStyle(fontSize: 14),
+                    style: TextStyle(fontSize: 17, color: Colors.black54),
                   ),
                 ),
-            ],
-          ),
-        ),
-        SizedBox(height: 10),
-        ..._recentTest.map((test) => _buildTestCard(test)),
-
         if (_recentTest.length < 2)
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -266,23 +282,47 @@ class _PersonalAccountState extends State<PersonalAccount> {
         ? Colors.orange
         : Colors.red;
 
-    return Card(
-      margin: EdgeInsets.only(bottom: 12),
-      color: Colors.white.withOpacity(0.95),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: ListTile(
-        contentPadding: EdgeInsets.all(16),
-        leading: CircleAvatar(
-          backgroundColor: color,
-          child: Text(
-            '$result',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              offset: Offset(5, 5),
+              blurRadius: 10,
+              spreadRadius: 2,
+            ),
+          ],
         ),
-        title: Text(testName, style: TextStyle(fontWeight: FontWeight.w600)),
-        trailing: Text(
-          '$percentage%',
-          style: TextStyle(fontWeight: FontWeight.bold, color: color),
+        child: Card(
+          //margin: EdgeInsets.only(bottom: 12),
+          color: Colors.white.withOpacity(0.95),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: ListTile(
+            contentPadding: EdgeInsets.all(16),
+            leading: CircleAvatar(
+              backgroundColor: color,
+              child: Text(
+                '$result',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            title: Text(
+              testName,
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+            trailing: Text(
+              '$percentage%',
+              style: TextStyle(fontWeight: FontWeight.bold, color: color),
+            ),
+          ),
         ),
       ),
     );
