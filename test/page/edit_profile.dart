@@ -84,12 +84,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
     try {
       bool success = true;
+      bool nameUpdated = false;
+      //bool photoUpdate = false;
 
-      if (_newName != null && _newName!.trim().isNotEmpty) {
-        success = await _dbHelper.updateUserName(_newName!.trim());
+      final finalName = _newName?.trim() ?? '';
+      if (finalName.isNotEmpty && finalName != _user.name) {
+        print('Обновляем имя $finalName');
+        nameUpdated = await _dbHelper.updateUserName(finalName);
+      } else if (finalName.isEmpty) {
+        print('Имя пустое, не обновляем');
+      } else {
+        print('Имя не изменилось');
       }
 
       if (_pickedImageFile != null) {
+        print('Обновляем фото');
         success = await _dbHelper.updateUserPhoto(_pickedImageFile!.path) && success;
       }
 
@@ -150,10 +159,28 @@ class _EditProfilePageState extends State<EditProfilePage> {
             children: [
               SizedBox(height: 100),
                   //картинка
-                  ProfileWidget(
-                    imagePath: _pickedImageFile?.path ?? _user.imagePath,
-                    isEdit: true,
-                    onClicked: _pickImage,
+                  Container(
+                    decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color.fromARGB(153, 244, 67, 54), 
+                      //offset: Offset(5, 5),
+                      blurRadius: 10,
+                      spreadRadius: 2
+                    ),
+                    BoxShadow(
+                      color: Colors.white,
+                      blurRadius: 0,
+                      spreadRadius: 0,
+                    )
+                  ],
+                ),
+                    child: ProfileWidget(
+                      imagePath: _pickedImageFile?.path ?? _user.imagePath,
+                      isEdit: true,
+                      onClicked: _pickImage,
+                    ),
                   ),
                   const SizedBox(height: 24),
                   //имя
@@ -163,6 +190,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       label: 'Имя',
                       text: _user.name,
                       onChanged: (name) {
+                        print('onChanged вызван $name');
                         setState(() {
                           _newName = name;
                         });

@@ -262,7 +262,7 @@ class DatabaseHelper {
 
       final data = {
         'name': newName,
-        'updated_at': DateTime.now().toIso8601String(),
+        //'updated_at': DateTime.now().toIso8601String(),
       };
       print('   Данные: $data');
 

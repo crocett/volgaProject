@@ -104,19 +104,40 @@ class _PersonalAccountState extends State<PersonalAccount> {
           Column(
             children: [
               SizedBox(height: 100),
-              ProfileWidget(
-                imagePath: _user.imagePath,
-                onClicked: () async {
-                  final result = await Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => EditProfilePage()),
-                  );
-                  if (result == true) {
-                    setState(() {
-                      _loadUserProfile();
-                    });
-                  }
-                },
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color.fromARGB(153, 244, 67, 54), 
+                      //offset: Offset(5, 5),
+                      blurRadius: 10,
+                      spreadRadius: 2
+                    ),
+                    BoxShadow(
+                      color: Colors.white,
+                      blurRadius: 0,
+                      spreadRadius: 0,
+                    )
+                  ],
+                ),
+                child: ProfileWidget(
+                  imagePath: _user.imagePath,
+                  onClicked: () async {
+                    final result = await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => EditProfilePage(),
+                      ),
+                    );
+                    if (result == true) {
+                      setState(() {
+                        _loadUserProfile();
+                      });
+                    }
+                  },
+                ),
               ),
+
               const SizedBox(height: 25),
               buildName(_user),
 

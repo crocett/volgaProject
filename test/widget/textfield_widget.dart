@@ -1,9 +1,11 @@
+//import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
+
 import 'package:flutter/material.dart';
 
 class TextfieldWidget extends StatefulWidget {
   final String label;
   final String text;
-  final ValueChanged<String> onChanged;
+  final ValueChanged<String>? onChanged;
 
   const TextfieldWidget({
     super.key,
@@ -23,6 +25,9 @@ class _TextfieldWidgetState extends State<TextfieldWidget> {
   void initState() {
     super.initState();
     controller = TextEditingController(text: widget.text);
+    controller.addListener(() {
+      widget.onChanged?.call(controller.text);
+    });
   }
 
   @override
