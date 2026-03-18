@@ -1,63 +1,59 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
-void main() {
-  runApp(const MyApp());
+import 'package:flutter/material.dart';
+//import 'hello_window.dart';
+import 'home_page.dart';
+import 'package:splashscreen/splashscreen.dart';
+//import 'package:volga/main.dart';
+import 'database_helper.dart';
+import 'user_pref.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  UserPreferences.init();
+  await _initDatabases();
+  // await DatabaseHelper().database;
+  // await DatabaseHelper().forceUpdateFromAssets();
+  print('База данных готова к работе');
+  runApp(MaterialApp(home: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-@override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+    return SplashScreen.timer(
+      seconds: 3,
+      navigateAfterSeconds: HomePage(),
+      title: Text(
+        'Сердце Поволжья',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 35,
+          color: const Color.fromARGB(255, 221, 27, 27),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      image: Image.asset(
+        'assets/images/heart.png',
+        width: 600,
+        height: 600,
+        fit: BoxFit.contain,
+      ),
+      //backgroundColor: Colors.white,
+      loaderColor: const Color.fromARGB(255, 221, 27, 27),
     );
+  }
+}
+
+Future<void> _initDatabases() async {
+  final dbHelper = DatabaseHelper();
+  try {
+    await dbHelper.mainDb;
+    print('maininfo.db готова');
+
+    await dbHelper.profileDb;
+    print('profileinfo.db готова');
+    
+  } catch (e) {
+    print('Ошибка инициализвции БД $e');
   }
 }
