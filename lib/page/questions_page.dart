@@ -50,6 +50,7 @@ class QuestionsPageState extends State<QuestionsPage> {
 
   //загрузка вопросов
   Future<void> _loadQuestion() async {
+    print('_loadQuestion начал загрузку');
     try {
       final db = await _dbHelper.mainDb;
       final questions = await db.query(
@@ -102,7 +103,7 @@ class QuestionsPageState extends State<QuestionsPage> {
                   ? correct
                   : incorrect,
               child: Text(
-                '$previousResult/${_questions.isEmpty ? '1' : _questions.length}',
+                '$previousResult/${_questions.isEmpty ? '?' : _questions.length}',
                 style: TextStyle(fontSize: 30, color: background),
               ),
             ),
@@ -142,7 +143,7 @@ class QuestionsPageState extends State<QuestionsPage> {
       _selectedOptionId = null;
       _questions = [];
     });
-    _loadQuestion();
+    await _loadQuestion();
 
     // if (mounted) {
     //   Navigator.pop(context);
@@ -151,7 +152,7 @@ class QuestionsPageState extends State<QuestionsPage> {
     // if (!mounted) {
     //   return;
     // }
-    
+
     //_loadQuestion();
     // if (_questions.isEmpty) {
     //   _loadQuestion();
@@ -163,7 +164,7 @@ class QuestionsPageState extends State<QuestionsPage> {
     if (index == _questions.length - 1) {
       print('Тест завершён!');
       print('testId: ${widget.testId}, score: $score');
-      
+
       try {
         await _dbHelper.saveOrUpdateTestResult(widget.testId, score);
         print('Результат сохранен: $score');
@@ -175,12 +176,14 @@ class QuestionsPageState extends State<QuestionsPage> {
         } else {
           print('PersonalAccount не найден в контексте');
         }
-        
-        final check = await _dbHelper.profileDb.then((db) => db.query(
-          'test_result',
-          where: 'id_test = ?',
-          whereArgs: [widget.testId]
-        ));
+
+        final check = await _dbHelper.profileDb.then(
+          (db) => db.query(
+            'test_result',
+            where: 'id_test = ?',
+            whereArgs: [widget.testId],
+          ),
+        );
         print('Проверка, найдено записей = ${check.length}');
         if (check.isEmpty) {
           print('Данные: ${check.first}');
@@ -198,6 +201,7 @@ class QuestionsPageState extends State<QuestionsPage> {
 
           onPressed: () {
             Navigator.pop(context);
+            _startTestRetake();
           },
           onReturnToTests: () {
             Navigator.pop(context);
@@ -212,7 +216,7 @@ class QuestionsPageState extends State<QuestionsPage> {
           isPressed = false;
           isAlreadySelected = false;
           _showAnswerDescr = false;
-        _selectedAnswerDescr = null;
+          _selectedAnswerDescr = null;
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -237,10 +241,12 @@ class QuestionsPageState extends State<QuestionsPage> {
       }
       final questionData = _questions[index];
       final descr = questionData['answ_descr']?.toString();
-        print('🔍 [DEBUG] после toString(): "$descr"');
-  print('🔍 [DEBUG] isEmpty: ${descr?.isEmpty}');
-  print('🔍 [DEBUG] _showAnswerDescr будет: ${descr != null && descr.trim().isNotEmpty}');
-        
+      print('🔍 [DEBUG] после toString(): "$descr"');
+      print('🔍 [DEBUG] isEmpty: ${descr?.isEmpty}');
+      print(
+        '🔍 [DEBUG] _showAnswerDescr будет: ${descr != null && descr.trim().isNotEmpty}',
+      );
+
       setState(() {
         _selectedOptionId = optionId;
         isPressed = true;
@@ -303,7 +309,7 @@ class QuestionsPageState extends State<QuestionsPage> {
 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(_questions.length, (i){
+              children: List.generate(_questions.length, (i) {
                 bool isCurrent = i == index;
                 bool isPassed = i < index;
                 return Container(
@@ -313,10 +319,10 @@ class QuestionsPageState extends State<QuestionsPage> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: isCurrent
-                    ? Colors.red
-                    :isPassed
-                    ? const Color.fromARGB(255, 199, 191, 191)
-                    :neutral,
+                        ? Colors.red
+                        : isPassed
+                        ? const Color.fromARGB(255, 199, 191, 191)
+                        : neutral,
                   ),
                 );
               }),
@@ -354,29 +360,30 @@ class QuestionsPageState extends State<QuestionsPage> {
                   );
                 }).toList() ??
                 []),
-                SizedBox(height: 10),
+            SizedBox(height: 10),
 
-                if(_showAnswerDescr && _selectedAnswerDescr != null)
-                AnimatedContainer(duration: Duration(milliseconds: 300),
+            if (_showAnswerDescr && _selectedAnswerDescr != null)
+              AnimatedContainer(
+                duration: Duration(milliseconds: 300),
                 margin: EdgeInsets.only(bottom: 20),
                 padding: EdgeInsets.all(16),
                 width: double.infinity,
-                 decoration: BoxDecoration(
-      color: const Color.fromARGB(255, 242, 234, 234),
-      borderRadius: BorderRadius.circular(12),
-    ),
-                   child: Column(
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 242, 234, 234),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 8,),
+                    SizedBox(height: 8),
                     Text(
-                      _selectedAnswerDescr?? 'Пусто',
-                      style: TextStyle( fontSize: 16, height: 1.4),
+                      _selectedAnswerDescr ?? 'Пусто',
+                      style: TextStyle(fontSize: 16, height: 1.4),
                     ),
                   ],
-                )
                 ),
-             
+              ),
+
             SizedBox(height: 30),
             NextButton(nextQuestion: nextQuestion),
           ],

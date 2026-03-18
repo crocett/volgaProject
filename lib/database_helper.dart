@@ -376,6 +376,37 @@ class DatabaseHelper {
     );
   }
 
+  //поиск по статей по ключевому слову или по тегам
+  Future<List<Map<String, dynamic>>> searchArticle({
+    String? keyword,
+    bool? historic,
+    bool? culture,
+    bool? center,
+  }) async {
+    final db = await mainDb;
+    String query = 'SELECT * FROM article WHERE 1=1';
+    List<dynamic> args = [];
+
+    if (keyword != null && keyword.trim().isNotEmpty) {
+      query += ' AND (name LIKE ? OR articl LIKE ?)';
+      args.add('%${keyword.trim()}%');
+      args.add('%${keyword.trim()}%');
+    }
+
+    if (historic == true) {
+      query += ' AND historic = 1';
+    }
+    if (culture == true) {
+      query += ' AND culture = 1';
+    }
+    if (center == true) {
+      query += ' AND center = 1';
+    }
+    final result = await db.rawQuery(query, args);
+    print('Найдено статьей = ${result.length}');
+    return result;
+  }
+
   //----- ОТЛАДКА ------
 
   Future<void> debugCheckTestResultTable() async {

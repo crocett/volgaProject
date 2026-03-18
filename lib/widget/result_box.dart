@@ -51,22 +51,11 @@ class ResultBox extends StatelessWidget {
                   : 'Молодец!',
               style: TextStyle(fontSize: 18),
             ),
-            SizedBox(height: 25),
-            // GestureDetector(
-            //   onTap: onPressed,
-            //   child: Text(
-            //     'Начать сначала?',
-            //     style: TextStyle(
-            //       fontSize: 20,
-            //       letterSpacing: 1.0,
-            //       color: Colors.blue[900],
-            //     ),
-            //   ),
-            // ),
+            SizedBox(height: 45),
             ElevatedButton(
               onPressed: onPressed,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 221, 27, 27),
+                backgroundColor: Colors.grey[500],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -81,7 +70,7 @@ class ResultBox extends StatelessWidget {
             ElevatedButton(
               onPressed: onReturnToTests,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 221, 27, 27),
+                backgroundColor: Colors.grey[500],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
