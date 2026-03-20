@@ -1,16 +1,12 @@
-# volga
+Приложение Сердце Поволжья
+Сборка
+1 способ
+Открыть папку lib -> файл main.dart. Над void main() async{} Нажать run.
+<img width="413" height="79" alt="image" src="https://github.com/user-attachments/assets/3ff80d98-5798-47f8-b6ef-c118e57e0497" />
+2 способ 
+В папке проекта в терминале прописать  команду flutter run
+<img width="542" height="45" alt="image" src="https://github.com/user-attachments/assets/d0f78dc4-ab9b-4bb1-842f-ebc545e1df71" />
+, где Volga, папка, в которой расположен весь проект
+<img width="626" height="283" alt="image" src="https://github.com/user-attachments/assets/385070b2-0883-4055-a5f4-f6067d253d99" />
 
-A new Flutter project.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
